@@ -1,4 +1,4 @@
-import Web3 from "web3";
+//import Web3 from "web3";
 import ComplexStorage from "./contracts/ComplexStorage.json";
 import SimpleStorage from "./contracts/SimpleStorage.json";
 import MedPass from "./contracts/MedPass.json";

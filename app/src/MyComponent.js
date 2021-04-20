@@ -9,11 +9,12 @@ export default ({ drizzle, drizzleState }) => {
   return (
     <div className="App">
       <div>
-        <img src={logo} alt="drizzle-logo" />
-        <h1>Drizzle Examples</h1>
+        <img src={logo} alt="MedPass-logo" class="w-50"/>
+        <h1>MedPass</h1>
         <p>
-          Examples of how to get started with Drizzle in various situations.
+          Welcome to MedPass!
         </p>
+        <hr></hr>
       </div>
 
       <div className="section">
@@ -25,22 +26,20 @@ export default ({ drizzle, drizzleState }) => {
           units="ether"
           precision={3}
         />
+        <strong>Name: </strong>
+        <ContractData
+          drizzle={drizzle}
+          drizzleState={drizzleState}
+          contract="MedPass"
+          method="getName"
+        />
       </div>
 
       <div className="section">
-        <h2>MedPass</h2>
-        <p>
-          <strong>Stored Value: </strong>
-          <ContractData
-            drizzle={drizzle}
-            drizzleState={drizzleState}
-            contract="MedPass"
-            method="getName"
-          />
-        </p>
-        <ContractForm drizzle={drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']}/>
+        <h2>Settings:</h2>
+        <ContractForm drizzle={drizzle} contract="MedPass" class="form-control" method="setName" labels={['First Name', 'Last Name']}/>
       </div>
-
+{/*
       <div className="section">
         <h2>ComplexStorage</h2>
         <p>
@@ -76,6 +75,7 @@ export default ({ drizzle, drizzleState }) => {
           method="singleDD"
         />
       </div>
+       */}
     </div>
   );
 };
