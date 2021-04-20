@@ -1,5 +1,5 @@
 # MedPass
-![MedPass](app\src\logo.png)
+![MedPass](\app\src\logo.png)
 This is a blockchain project by Sebastian Chmel & Leo Bowen Wang
 
 ## Dependencies
