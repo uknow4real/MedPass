@@ -58,7 +58,7 @@ export default ({ drizzle, drizzleState }) => {
         <h2>Settings:</h2>
         <ContractForm drizzle={drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
         <h2>Set Condition:</h2>
-        <ContractForm drizzle={drizzle} contract="MedPass" method="setCondition" labels={['Patient Address', 'Condition']} />
+        <ContractForm drizzle={drizzle} contract="MedPass" method="setCondition" labels={['Patient ID', 'Condition']} />
       </div>
 {/*
       <div className="section">
