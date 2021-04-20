@@ -32,12 +32,15 @@ export default ({ drizzle, drizzleState }) => {
           drizzleState={drizzleState}
           contract="MedPass"
           method="getName"
+          methodArgs={[drizzleState.accounts[0]]}
         />
+        <br/>
+        <strong>Condition: </strong>
       </div>
 
       <div className="section">
         <h2>Settings:</h2>
-        <ContractForm drizzle={drizzle} contract="MedPass" class="form-control" method="setName" labels={['First Name', 'Last Name']}/>
+        <ContractForm drizzle={drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
       </div>
 {/*
       <div className="section">

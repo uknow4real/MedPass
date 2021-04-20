@@ -13,13 +13,12 @@ contract MedPass {
 
     mapping (address => string) private identity; 
 
-    function getName() public view returns (string memory) {
-        return identity[owner];
+    function getName(address _owner) public view returns (string memory) {
+        return identity[_owner];
     }
 
     function setName(string memory _fname, string memory _lname) public {
         owner = msg.sender;
-        //fullName = string(abi.encodePacked(_fname, _lname));
 
         bytes memory s;
         s = abi.encodePacked(_fname);
