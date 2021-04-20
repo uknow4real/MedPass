@@ -26,6 +26,15 @@ export default ({ drizzle, drizzleState }) => {
           units="ether"
           precision={3}
         />
+        <strong>Patient ID: </strong>
+        <ContractData
+          drizzle={drizzle}
+          drizzleState={drizzleState}
+          contract="MedPass"
+          method="getID"
+          methodArgs={[drizzleState.accounts[0]]}
+        />
+        <br/>
         <strong>Name: </strong>
         <ContractData
           drizzle={drizzle}
@@ -36,11 +45,20 @@ export default ({ drizzle, drizzleState }) => {
         />
         <br/>
         <strong>Condition: </strong>
+        <ContractData
+          drizzle={drizzle}
+          drizzleState={drizzleState}
+          contract="MedPass"
+          method="getCondition"
+          methodArgs={[drizzleState.accounts[0]]}
+        />
       </div>
 
       <div className="section">
         <h2>Settings:</h2>
         <ContractForm drizzle={drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
+        <h2>Set Condition:</h2>
+        <ContractForm drizzle={drizzle} contract="MedPass" method="setCondition" labels={['Patient Address', 'Condition']} />
       </div>
 {/*
       <div className="section">
