@@ -1,6 +1,9 @@
 # MedPass
 ![MedPass](/app/src/logo.png)
-This is a blockchain project by Sebastian Chmel & Leo Bowen Wang
+This is a decentralized blockchain application implementing smart contracts.
+
+## Project By
+Sebastian Chmel & Leo Bowen Wang
 
 ## Dependencies
 cd app
