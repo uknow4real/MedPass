@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.21 <=0.8.3;
+pragma solidity >=0.4.21 <=0.8.4;
 
 contract MedPass {
     address owner;
@@ -11,22 +11,22 @@ contract MedPass {
     struct Person {
         string name;
         Condition condition;
-        uint256 id;
+        uint32 id;
     }
 
     mapping (address => string) private identity;
     mapping (address => Condition) private condition;
-    mapping (address => uint256) private addToID;
-    mapping (uint256 => address) private idToAdd;
+    mapping (address => uint32) private addToID;
+    mapping (uint32 => address) private idToAdd;
 
     mapping (address => address) private approvedBy;
 
     // default person
     Person p = Person("Your Name", Condition.Negative, 1);
 
-    function getID(address _owner) public pure returns (uint256) {
+    function getID(address _owner) public pure returns (uint32) {
         // returns ID of patient
-        return uint256(keccak256(abi.encodePacked(_owner)));
+        return uint32(uint256(keccak256(abi.encodePacked(_owner))));
     }
 
     function getName(address _owner) public view returns (string memory) {
@@ -57,7 +57,7 @@ contract MedPass {
         idToAdd[p.id] = owner;
     }
 
-    function getCondition(address _owner) public view returns (string memory) {
+    function getCondition(address _owner) public view returns (string memory condi) {
         if (condition[_owner] == Condition.Positive) {
             return "Positive";
         }
@@ -66,7 +66,7 @@ contract MedPass {
         }
     }
 
-    function setCondition(uint256 _id, string memory _condition) public {
+    function setCondition(uint32 _id, string memory _condition) public {
         approvedBy[idToAdd[_id]] = msg.sender;
 
         // keccak256() only accept bytes as arguments, so we need explicit conversion

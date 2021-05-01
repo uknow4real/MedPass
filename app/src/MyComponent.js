@@ -1,6 +1,9 @@
 import React from "react";
 import { newContextComponents } from "@drizzle/react-components";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import logo from "./logo.png";
+import './med';
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
@@ -8,6 +11,27 @@ export default ({ drizzle, drizzleState }) => {
   // destructure drizzle and drizzleState from props
   return (
     <div className="App">
+      {/*<div>
+        <img src={logo} alt="MedPass-logo" class="w-50"/>
+        <h1>MedPass</h1>
+        <p>
+          Welcome to MedPass!
+        </p>
+        <hr></hr>
+      </div>*/}
+
+    <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="#home"><img src={logo} className="d-inline-block align-top" id="logo" alt="medpass-logo"/></Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">Show Results</Nav.Link>
+            <Nav.Link href="#link">Register Pass</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+
       <div>
         <img src={logo} alt="MedPass-logo" class="w-50"/>
         <h1>MedPass</h1>
@@ -16,7 +40,6 @@ export default ({ drizzle, drizzleState }) => {
         </p>
         <hr></hr>
       </div>
-
       <div className="section">
         <h2>Active Account</h2>
         <AccountData

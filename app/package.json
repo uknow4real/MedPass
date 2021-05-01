@@ -9,6 +9,7 @@
     "bootstrap": "^4.6.0",
     "http-parser-js": "^0.5.3",
     "icss-replace-symbols": "^1.1.0",
+    "jquery": "^3.6.0",
     "react": "^16.11.0",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^16.11.0",
