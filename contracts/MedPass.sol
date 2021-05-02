@@ -21,6 +21,11 @@ contract MedPass {
         Condition condition;
         uint timestamp;
     }
+
+    modifier onlyDoctor(){
+        //require();
+        _;
+    }
     
     mapping (address => string) private identity;
     mapping (address => Condition) private condition;

@@ -7,8 +7,6 @@ import "./App.css";
 
 const drizzle = new Drizzle(drizzleOptions);
 
-//console.log(drizzle);
-
 const App = () => {
   return (
     <DrizzleContext.Provider drizzle={drizzle}>
@@ -28,6 +26,5 @@ const App = () => {
     </DrizzleContext.Provider>
   );
 }
-//console.log(drizzle);
 
 export default App;

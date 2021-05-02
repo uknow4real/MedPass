@@ -8,6 +8,20 @@ import './med';
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
 export default ({ drizzle, drizzleState }) => {
+  //let data = drizzle.contracts.MedPass.methods.getTestCount().call();
+  async function getTestCount () {
+    let testCount = await drizzle.contracts.MedPass.methods.getTestCount().call();
+    let span = document.getElementById("testCount");
+    span.innerText = testCount;
+  };
+  getTestCount();
+  async function getTestTime() {
+    let testTime = await drizzle.contracts.MedPass.methods.getTestTime("0x2FD7A8D5937A537a226Ae71DE870E59A3BAEd4B0").call();
+    let date = new Date(testTime*1000);
+    let time = document.getElementById("time");
+    time.innerText = date;
+  };
+  getTestTime();
   // destructure drizzle and drizzleState from props
   return (
     <div className="App">
@@ -77,21 +91,10 @@ export default ({ drizzle, drizzleState }) => {
         />
         <br/>
         <strong>Time : </strong>
-        <ContractData
-          drizzle={drizzle}
-          drizzleState={drizzleState}
-          contract="MedPass"
-          method="getTestTime"
-          methodArgs={[drizzleState.accounts[0]]}
-        />
+        <span id="time"></span>
         <br/>
         <strong>Test Count : </strong>
-        <ContractData
-          drizzle={drizzle}
-          drizzleState={drizzleState}
-          contract="MedPass"
-          method="getTestCount"
-        />
+        <span id="testCount"></span>
       </div>
       
       <div className="section">
