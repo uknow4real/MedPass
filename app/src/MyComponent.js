@@ -16,7 +16,7 @@ export default ({ drizzle, drizzleState }) => {
   };
   getTestCount();
   async function getTestTime() {
-    let testTime = await drizzle.contracts.MedPass.methods.getTestTime("0x2FD7A8D5937A537a226Ae71DE870E59A3BAEd4B0").call();
+    let testTime = await drizzle.contracts.MedPass.methods.getTestTime(drizzleState.accounts[0]).call();
     let date = new Date(testTime*1000);
     let time = document.getElementById("time");
     time.innerText = date;
