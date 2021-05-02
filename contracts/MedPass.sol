@@ -10,10 +10,18 @@ contract MedPass {
 
     struct Person {
         string name;
-        Condition condition;
         uint32 id;
     }
-
+    
+    uint testCount = 0;
+    
+    struct Test {
+        address tester_address;
+        uint32 patient_id;
+        Condition condition;
+        uint timestamp;
+    }
+    
     mapping (address => string) private identity;
     mapping (address => Condition) private condition;
     mapping (address => uint32) private addToID;
@@ -21,8 +29,12 @@ contract MedPass {
 
     mapping (address => address) private approvedBy;
 
+    mapping (address => uint) private testTimestamp;
+
     // default person
-    Person p = Person("Your Name", Condition.Negative, 1);
+    Person p = Person("Your Name", 1);
+    // default test
+    Test t = Test(msg.sender, 1,Condition.Negative, block.timestamp);
 
     function getID(address _owner) public pure returns (uint32) {
         // returns ID of patient
@@ -49,9 +61,6 @@ contract MedPass {
         p.name = fullName;
         identity[owner] = p.name;
 
-        p.condition = Condition.Negative;
-        condition[owner] = p.condition;
-
         p.id = getID(owner);
         addToID[owner] = p.id;
         idToAdd[p.id] = owner;
@@ -66,20 +75,34 @@ contract MedPass {
         }
     }
 
+    function getTestTime(address _owner) public view returns (uint) {
+        return testTimestamp[_owner];
+    }
+
+    
+    function getTestCount() public view returns (uint) {
+        return testCount;
+    }
+
     function setCondition(uint32 _id, string memory _condition) public {
         approvedBy[idToAdd[_id]] = msg.sender;
 
+        t.tester_address = approvedBy[idToAdd[_id]];
         // keccak256() only accept bytes as arguments, so we need explicit conversion
         bytes memory condi = bytes(_condition);
         bytes32 Hash = keccak256(condi);
-        
+            
+        testCount ++;
+        t.patient_id = _id;
+        testTimestamp[idToAdd[_id]] = block.timestamp;
+
         if (Hash == keccak256("Negative")) {
-            p.condition = Condition.Negative;
+            t.condition = Condition.Negative;
         }
         if (Hash == keccak256("Positive")) {
-            p.condition = Condition.Positive;
+            t.condition = Condition.Positive;
         }
-        condition[idToAdd[_id]] = p.condition;
+        condition[idToAdd[_id]] = t.condition;
     }
 
 }

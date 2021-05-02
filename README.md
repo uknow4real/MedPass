@@ -6,10 +6,11 @@ This is a decentralized blockchain application implementing smart contracts.
 Sebastian Chmel & Leo Bowen Wang
 
 ## Dependencies
+```
+truffle compile
+truffle migrate
 cd app
-
 npm install react-scripts --save
-
 npm install react-bootstrap bootstrap --save
-
 npm install @drizzle/store @drizzle/react-plugin @drizzle/react-components --save
+```

@@ -75,8 +75,25 @@ export default ({ drizzle, drizzleState }) => {
           method="getCondition"
           methodArgs={[drizzleState.accounts[0]]}
         />
+        <br/>
+        <strong>Time : </strong>
+        <ContractData
+          drizzle={drizzle}
+          drizzleState={drizzleState}
+          contract="MedPass"
+          method="getTestTime"
+          methodArgs={[drizzleState.accounts[0]]}
+        />
+        <br/>
+        <strong>Test Count : </strong>
+        <ContractData
+          drizzle={drizzle}
+          drizzleState={drizzleState}
+          contract="MedPass"
+          method="getTestCount"
+        />
       </div>
-
+      
       <div className="section">
         <h2>Settings:</h2>
         <ContractForm drizzle={drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
