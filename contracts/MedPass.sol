@@ -16,6 +16,7 @@ contract MedPass {
     uint testCount = 0;
     
     struct Test {
+        uint32 testID;
         address tester_address;
         uint32 patient_id;
         Condition condition;
@@ -35,6 +36,8 @@ contract MedPass {
     mapping (address => address) private approvedBy;
 
     mapping (address => uint) private testTimestamp;
+    mapping (uint32 => Test) private personTests;
+    mapping (address => Test) private allTests;
 
     // default person
     Person p = Person("Your Name", 1);
@@ -110,4 +113,25 @@ contract MedPass {
         condition[idToAdd[_id]] = t.condition;
     }
 
+    function createTest(uint32 _id, string memory _condition) public {
+        approvedBy[idToAdd[_id]] = msg.sender;
+        // keccak256() only accept bytes as arguments, so we need explicit conversion
+        bytes memory condi = bytes(_condition);
+        bytes32 Hash = keccak256(condi);
+            
+        testCount ++;
+        testTimestamp[idToAdd[_id]] = block.timestamp;
+
+        if (Hash == keccak256("Negative")) {
+            t.condition = Condition.Negative;
+        }
+        if (Hash == keccak256("Positive")) {
+            t.condition = Condition.Positive;
+        }
+        condition[idToAdd[_id]] = t.condition;
+        Test memory test = Test(msg.sender, _id, condition[idToAdd[_id]], block.timestamp);
+
+        personTests[getTestCount()] = test;
+        allTests[idToAdd[_id]] = ;
+    }
 }
