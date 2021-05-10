@@ -9,14 +9,17 @@ contract MedPass {
     enum Condition {Negative, Positive}
 
     struct Person {
-        string name;
         uint32 id;
+        bool isRegistered;
+        string name;
+        uint testCount;
     }
     
-    uint testCount = 0;
+    // rename
+    uint totalTestCount = 0;
     
     struct Test {
-        uint32 testID;
+        uint32 id;
         address tester_address;
         uint32 patient_id;
         Condition condition;
@@ -28,21 +31,19 @@ contract MedPass {
         _;
     }
     
-    mapping (address => string) private identity;
-    mapping (address => Condition) private condition;
+    // struct mappings
+    mapping (address => Person) private identity;
+    mapping (uint => Test) public personTests;
+
     mapping (address => uint32) private addToID;
     mapping (uint32 => address) private idToAdd;
 
     mapping (address => address) private approvedBy;
 
-    mapping (address => uint) private testTimestamp;
-    mapping (uint32 => Test) private personTests;
-    mapping (address => Test) private allTests;
-
     // default person
-    Person p = Person("Your Name", 1);
+    Person p = Person(1, false, "Your Name", 0);
     // default test
-    Test t = Test(msg.sender, 1,Condition.Negative, block.timestamp);
+    Test t = Test(0, msg.sender, 1, Condition.Negative, block.timestamp);
 
     function getID(address _owner) public pure returns (uint32) {
         // returns ID of patient
@@ -51,7 +52,7 @@ contract MedPass {
 
     function getName(address _owner) public view returns (string memory) {
         // returns full patient name which is mapped to the address
-        return identity[_owner];
+        return identity[_owner].name;
     }
 
     function setName(string memory _fname, string memory _lname) public {
@@ -66,33 +67,43 @@ contract MedPass {
         fullName = string(s);
 
         // set name of person and map it to account address
-        p.name = fullName;
-        identity[owner] = p.name;
+        identity[owner].name = fullName;
 
-        p.id = getID(owner);
-        addToID[owner] = p.id;
-        idToAdd[p.id] = owner;
+        uint32 id = getID(owner);
+        addToID[owner] = id;
+        idToAdd[id] = owner;
+
+        if (identity[owner].isRegistered == false) {
+            identity[owner].testCount = 0;
+            identity[owner].isRegistered = true;
+        }
     }
 
     function getCondition(address _owner) public view returns (string memory condi) {
-        if (condition[_owner] == Condition.Positive) {
+        uint testID = identity[_owner].testCount;
+        if (personTests[testID].condition == Condition.Positive) {
             return "Positive";
         }
-        if (condition[_owner] == Condition.Negative) {
+        if (personTests[testID].condition == Condition.Negative) {
             return "Negative";
         }
     }
 
     function getTestTime(address _owner) public view returns (uint) {
-        return testTimestamp[_owner];
+        uint testID = identity[_owner].testCount;
+        return personTests[testID].timestamp;
     }
 
+    function getTestCount(address _owner) public view returns (uint) {
+        uint testID = identity[_owner].testCount;
+        return testID;
+    }
     
-    function getTestCount() public view returns (uint) {
-        return testCount;
+    function getTotalTestCount() public view returns (uint) {
+        return totalTestCount;
     }
 
-    function setCondition(uint32 _id, string memory _condition) public {
+    /*function setCondition(uint32 _id, string memory _condition) public {
         approvedBy[idToAdd[_id]] = msg.sender;
 
         t.tester_address = approvedBy[idToAdd[_id]];
@@ -100,9 +111,9 @@ contract MedPass {
         bytes memory condi = bytes(_condition);
         bytes32 Hash = keccak256(condi);
             
-        testCount ++;
+        totalTestCount++;
         t.patient_id = _id;
-        testTimestamp[idToAdd[_id]] = block.timestamp;
+        personTests[idToAdd[_id]].timestamp = block.timestamp;
 
         if (Hash == keccak256("Negative")) {
             t.condition = Condition.Negative;
@@ -110,17 +121,22 @@ contract MedPass {
         if (Hash == keccak256("Positive")) {
             t.condition = Condition.Positive;
         }
-        condition[idToAdd[_id]] = t.condition;
-    }
+        personTests[idToAdd[_id]] = t.condition;
+    }*/
 
     function createTest(uint32 _id, string memory _condition) public {
         approvedBy[idToAdd[_id]] = msg.sender;
         // keccak256() only accept bytes as arguments, so we need explicit conversion
         bytes memory condi = bytes(_condition);
         bytes32 Hash = keccak256(condi);
-            
-        testCount ++;
-        testTimestamp[idToAdd[_id]] = block.timestamp;
+
+        uint32 id = uint32(uint256(keccak256(abi.encodePacked(idToAdd[_id],block.timestamp))));
+
+        totalTestCount++;
+        identity[idToAdd[_id]].testCount += 1;
+        uint testCount = identity[idToAdd[_id]].testCount;
+
+        personTests[testCount].timestamp = block.timestamp;
 
         if (Hash == keccak256("Negative")) {
             t.condition = Condition.Negative;
@@ -128,10 +144,9 @@ contract MedPass {
         if (Hash == keccak256("Positive")) {
             t.condition = Condition.Positive;
         }
-        condition[idToAdd[_id]] = t.condition;
-        Test memory test = Test(msg.sender, _id, condition[idToAdd[_id]], block.timestamp);
-
-        personTests[getTestCount()] = test;
-        allTests[idToAdd[_id]] = ;
+        personTests[testCount].condition = t.condition;
+        Test memory test = Test(id, msg.sender, _id, personTests[testCount].condition, block.timestamp);
+        
+        personTests[testCount] = test;
     }
 }
