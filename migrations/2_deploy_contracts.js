@@ -1,5 +1,5 @@
 const MedPass = artifacts.require("MedPass");
 
-module.exports = function(deployer) {
+module.exports = function (deployer) {
   deployer.deploy(MedPass);
 };
