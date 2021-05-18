@@ -41,6 +41,11 @@ export default class MyComponent extends Component {
   render() {
     const drizzle = this.props.drizzle
     const drizzleState = this.props.drizzleState
+    async function setAdmin() {
+      const admin = await drizzle.contracts.MedPass.methods.setAdmin().send()
+      const a = await drizzle.contracts.MedPass.methods.adminmapping(drizzleState.accounts[0]).call()
+      console.log(a)
+    }
     //let Buttons = document.getElementsByClassName("pure-button")
     //Buttons[1].setAttribute("onclick", window.location.reload()) 
     return (
@@ -53,6 +58,7 @@ export default class MyComponent extends Component {
               <Nav.Link href="#home">Home</Nav.Link>
               <Nav.Link href="#link">Show Results</Nav.Link>
               <Nav.Link href="#link">Register Pass</Nav.Link>
+              <button type="button" class="btn btn-info" onClick={setAdmin}>Admin</button>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

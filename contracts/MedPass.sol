@@ -26,19 +26,18 @@ contract MedPass {
         uint timestamp;
     }
 
-    modifier onlyDoctor(){
-        //require();
+    modifier onlyAdmin(){
+        require(adminmapping[msg.sender] == true);
         _;
     }
     
     // struct mappings
     mapping (address => Person) private identity;
+    mapping (address => bool) public adminmapping;
     mapping (uint => Test) public personTests;
 
     mapping (address => uint32) private addToID;
     mapping (uint32 => address) private idToAdd;
-
-    mapping (address => address) private approvedBy;
 
     // default person
     Person p = Person(1, false, "Your Name", 0);
@@ -77,6 +76,11 @@ contract MedPass {
             identity[owner].testCount = 0;
             identity[owner].isRegistered = true;
         }
+    }
+
+    function setAdmin() public {
+        require(!adminmapping[msg.sender]);
+        adminmapping[msg.sender] = true;
     }
 
     function getCondition(address _owner) public view returns (string memory condi) {
@@ -124,8 +128,7 @@ contract MedPass {
         personTests[idToAdd[_id]] = t.condition;
     }*/
 
-    function createTest(uint32 _id, string memory _condition) public {
-        approvedBy[idToAdd[_id]] = msg.sender;
+    function createTest(uint32 _id, string memory _condition) public onlyAdmin {
         // keccak256() only accept bytes as arguments, so we need explicit conversion
         bytes memory condi = bytes(_condition);
         bytes32 Hash = keccak256(condi);
