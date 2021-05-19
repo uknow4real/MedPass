@@ -3,7 +3,8 @@ import { newContextComponents } from "@drizzle/react-components";
 
 const { ContractData, ContractForm } = newContextComponents;
 
-export default class MyComponent extends Component {
+export default class Home extends Component {
+
   componentDidMount() {
     const drizzle = this.props.drizzle
     const drizzleState = this.props.drizzleState
