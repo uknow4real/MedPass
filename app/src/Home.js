@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { newContextComponents } from "@drizzle/react-components";
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import logo from "./logo.png";
 
-const { AccountData, ContractData, ContractForm } = newContextComponents;
+const { ContractData, ContractForm } = newContextComponents;
 
 export default class MyComponent extends Component {
   componentDidMount() {
@@ -48,21 +45,7 @@ export default class MyComponent extends Component {
     //let Buttons = document.getElementsByClassName("pure-button")
     //Buttons[1].setAttribute("onclick", window.location.reload()) 
     return (
-
       <div className="App">
-        <Navbar bg="light" expand="lg">
-          <Navbar.Brand href="#home"><img src={logo} className="d-inline-block align-top" id="logo" alt="medpass-logo" /></Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#link">Show Results</Nav.Link>
-                <Nav.Link href="#link">Register Pass</Nav.Link>
-                <button type="button" class="btn btn-info" onClick={setAdmin}>Admin</button>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-
         <div>
           <h2>
             Welcome to MedPass!
@@ -71,14 +54,6 @@ export default class MyComponent extends Component {
           <hr></hr>
         </div>
         <div className="section">
-          <h2>Active Account</h2>
-          <AccountData
-            drizzle={drizzle}
-            drizzleState={drizzleState}
-            accountIndex={0}
-            units="ether"
-            precision={3}
-          />
           <strong>Patient ID: </strong>
           <ContractData
             drizzle={drizzle}
@@ -90,11 +65,11 @@ export default class MyComponent extends Component {
           <br />
           <strong>Name: </strong>
           <ContractData
-            drizzle={this.props.drizzle}
-            drizzleState={this.props.drizzleState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
             contract="MedPass"
             method="getName"
-            methodArgs={[this.props.drizzleState.accounts[0]]}
+            methodArgs={[drizzleState.accounts[0]]}
           />
           <br />
           {this.state.testCount === 0 ? (
@@ -102,11 +77,11 @@ export default class MyComponent extends Component {
           ) : ([
             <strong>Condition: </strong>,
             <ContractData
-              drizzle={this.props.drizzle}
-              drizzleState={this.props.drizzleState}
+              drizzle={drizzle}
+              drizzleState={drizzleState}
               contract="MedPass"
               method="getCondition"
-              methodArgs={[this.props.drizzleState.accounts[0]]}
+              methodArgs={[drizzleState.accounts[0]]}
             />,
             <br />,
             <strong>Time: {this.state.testTime} </strong>,
@@ -116,13 +91,13 @@ export default class MyComponent extends Component {
         </div>
         <div className="section">
           <h2>Settings:</h2>
-          <ContractForm drizzle={this.props.drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
+          <ContractForm drizzle={drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
           <h2>Set Condition:</h2>
-          <ContractForm drizzle={this.props.drizzle} contract="MedPass" method="createTest" labels={['Patient ID', 'Condition']} />
+          <ContractForm drizzle={drizzle} contract="MedPass" method="createTest" labels={['Patient ID', 'Condition']} />
           <form class="form-group">
             <input type="email" class="form-control" placeholder="Patient ID"></input>
-            <button type="button" class="btn btn-danger" onClick={this.state.condition === "Positive"}>Positive</button>
-            <button type="button" class="btn btn-success" onClick={this.state.condition === "Negative"}>Negative</button>
+            <button type="button" class="btn btn-danger" >Positive</button>
+            <button type="button" class="btn btn-success" >Negative</button>
           </form>
         </div>
         <div className="testList">
