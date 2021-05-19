@@ -42,29 +42,28 @@ export default class MyComponent extends Component {
     const drizzle = this.props.drizzle
     const drizzleState = this.props.drizzleState
     async function setAdmin() {
-      const admin = await drizzle.contracts.MedPass.methods.setAdmin().send()
-      const a = await drizzle.contracts.MedPass.methods.adminmapping(drizzleState.accounts[0]).call()
-      console.log(a)
+      await drizzle.contracts.MedPass.methods.setAdmin().send()
+      alert("You are now an admin!");
     }
     //let Buttons = document.getElementsByClassName("pure-button")
     //Buttons[1].setAttribute("onclick", window.location.reload()) 
     return (
+
       <div className="App">
         <Navbar bg="light" expand="lg">
           <Navbar.Brand href="#home"><img src={logo} className="d-inline-block align-top" id="logo" alt="medpass-logo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Show Results</Nav.Link>
-              <Nav.Link href="#link">Register Pass</Nav.Link>
-              <button type="button" class="btn btn-info" onClick={setAdmin}>Admin</button>
+                <Nav.Link href="#home">Home</Nav.Link>
+                <Nav.Link href="#link">Show Results</Nav.Link>
+                <Nav.Link href="#link">Register Pass</Nav.Link>
+                <button type="button" class="btn btn-info" onClick={setAdmin}>Admin</button>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
 
         <div>
-          <img src={logo} alt="MedPass-logo" className="w-50" />
           <h2>
             Welcome to MedPass!
           </h2>
@@ -98,24 +97,33 @@ export default class MyComponent extends Component {
             methodArgs={[this.props.drizzleState.accounts[0]]}
           />
           <br />
-          <strong>Condition: </strong>
-          <ContractData
-            drizzle={this.props.drizzle}
-            drizzleState={this.props.drizzleState}
-            contract="MedPass"
-            method="getCondition"
-            methodArgs={[this.props.drizzleState.accounts[0]]}
-          />
-          <br />
-          <strong>Time: {this.state.testTime} </strong>
-          <br />
-          <strong>Test Count: {this.state.testCount} </strong>
+          {this.state.testCount === 0 ? (
+            <h4 class="text-center">You have yet to do your first test!</h4>
+          ) : ([
+            <strong>Condition: </strong>,
+            <ContractData
+              drizzle={this.props.drizzle}
+              drizzleState={this.props.drizzleState}
+              contract="MedPass"
+              method="getCondition"
+              methodArgs={[this.props.drizzleState.accounts[0]]}
+            />,
+            <br />,
+            <strong>Time: {this.state.testTime} </strong>,
+            <br />,
+            <strong>Test Count: {this.state.testCount} </strong>
+          ])}
         </div>
         <div className="section">
           <h2>Settings:</h2>
           <ContractForm drizzle={this.props.drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
           <h2>Set Condition:</h2>
           <ContractForm drizzle={this.props.drizzle} contract="MedPass" method="createTest" labels={['Patient ID', 'Condition']} />
+          <form class="form-group">
+            <input type="email" class="form-control" placeholder="Patient ID"></input>
+            <button type="button" class="btn btn-danger" onClick={this.state.condition === "Positive"}>Positive</button>
+            <button type="button" class="btn btn-success" onClick={this.state.condition === "Negative"}>Negative</button>
+          </form>
         </div>
         <div className="testList">
           {this.state.tests.map((test, key) => {
@@ -131,15 +139,15 @@ export default class MyComponent extends Component {
                   <span>Test ID: {test.id} </span>
                 </div>
                 <span>Test Time: {time}</span>
-                <br/>
+                <br />
                 <span>Condition: {condition}</span>
-              <br/>
+                <br />
               </div>
             )
           })
           }
+        </div>
       </div>
-      </div >
     );
   }
 }

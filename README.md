@@ -12,5 +12,6 @@ truffle migrate
 cd app
 npm install react-scripts --save
 npm install react-bootstrap bootstrap --save
-npm install @drizzle/store @drizzle/react-plugin @drizzle/react-components --save
+npm install @drizzle/store @drizzle/react-plugin @drizzle/
+npm install react-router-dom
 ```
