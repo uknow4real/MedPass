@@ -39,12 +39,7 @@ export default class Home extends Component {
   render() {
     const drizzle = this.props.drizzle
     const drizzleState = this.props.drizzleState
-    async function setAdmin() {
-      await drizzle.contracts.MedPass.methods.setAdmin().send()
-      alert("You are now an admin!");
-    }
-    //let Buttons = document.getElementsByClassName("pure-button")
-    //Buttons[1].setAttribute("onclick", window.location.reload()) 
+
     return (
       <div className="App">
         <div>
