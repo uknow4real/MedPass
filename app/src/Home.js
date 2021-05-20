@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { newContextComponents } from "@drizzle/react-components";
+import QRCode from "react-qr-code";
 
-const { ContractData, ContractForm } = newContextComponents;
+const { ContractData } = newContextComponents;
 
 export default class Home extends Component {
 
@@ -43,11 +44,6 @@ export default class Home extends Component {
     return (
       <div className="App">
         <div>
-          <h2>
-            Welcome to MedPass!
-          </h2>
-          <h6>Total tests created by MedPass: {this.state.totalTestCount}</h6>
-          <hr></hr>
         </div>
         <div className="section">
           <strong>Patient ID: </strong>
@@ -69,7 +65,7 @@ export default class Home extends Component {
           />
           <br />
           {this.state.testCount === 0 ? (
-            <h4 class="text-center">You have yet to do your first test!</h4>
+            <h4 className="text-center">You have yet to do your first test!</h4>
           ) : ([
             <strong>Condition: </strong>,
             <ContractData
@@ -86,17 +82,6 @@ export default class Home extends Component {
           ])}
         </div>
         <div className="section">
-          <h2>Settings:</h2>
-          <ContractForm drizzle={drizzle} contract="MedPass" method="setName" labels={['First Name', 'Last Name']} />
-          <h2>Set Condition:</h2>
-          <ContractForm drizzle={drizzle} contract="MedPass" method="createTest" labels={['Patient ID', 'Condition']} />
-          <form class="form-group">
-            <input type="email" class="form-control" placeholder="Patient ID"></input>
-            <button type="button" class="btn btn-danger" >Positive</button>
-            <button type="button" class="btn btn-success" >Negative</button>
-          </form>
-        </div>
-        <div className="testList">
           {this.state.tests.map((test, key) => {
             let condition = 'Negative';
             if (test.condition === '1') {
@@ -105,19 +90,28 @@ export default class Home extends Component {
             let testTime = new Date(test.timestamp * 1000);
             let time = testTime.toLocaleDateString() + ', ' + testTime.toLocaleTimeString();
             return (
-              <div class="card text-center" key={key}>
-                <div class="card-header">
-                  <span>Test ID: {test.id} </span>
+              <div className="card text-center mb-3" key={key}>
+                <div className="card-header">
+                  <h6>Test ID: {test.id} </h6>
+                </div>
+                <div className="text-center">
+                <QRCode value={test.id} size="100"/>
                 </div>
                 <span>Test Time: {time}</span>
-                <br />
                 <span>Condition: {condition}</span>
-                <br />
               </div>
             )
           })
           }
+          <hr />
+          <h6>Total tests created by MedPass: {this.state.totalTestCount}</h6>
+          <hr />
+
+          <iframe title="Covid" src="https://ourworldindata.org/explorers/coronavirus-data-explorer?zoomToSelection=true&time=2021-05-01..latest&pickerSort=desc&pickerMetric=total_cases&hideControls=true&Metric=Confirmed+cases&Interval=7-day+rolling+average&Relative+to+Population=false&Align+outbreaks=false&country=~AUT" loading="lazy" style={{
+            'width': '100%', 'height': '400px', 'border': '0px none'
+          }}></iframe>
         </div>
+
       </div>
     );
   }

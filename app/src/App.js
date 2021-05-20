@@ -3,9 +3,9 @@ import { DrizzleContext } from "@drizzle/react-plugin";
 import { Drizzle } from "@drizzle/store";
 import drizzleOptions from "./drizzleOptions";
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./Home";
-import RegisterPass from "./RegisterPass";
+import Settings from "./Settings";
 import Navigation from './Navigation';
 
 const drizzle = new Drizzle(drizzleOptions);
@@ -16,7 +16,6 @@ export default () => {
       <DrizzleContext.Consumer>
         {drizzleContext => {
           const { drizzle, drizzleState, initialized } = drizzleContext;
-
           if (!initialized) {
             return "Loading..."
           }
@@ -28,7 +27,7 @@ export default () => {
                 <Route exact path="/" render={() => {
                   return <Home drizzle={drizzle} drizzleState={drizzleState} />
                 }} />
-                <Route exact path="/register" component={() => <RegisterPass drizzle={drizzle} drizzleState={drizzleState} />} />
+                <Route exact path="/register" component={() => <Settings drizzle={drizzle} drizzleState={drizzleState} />} />
               </Switch>
             </Router>
 
