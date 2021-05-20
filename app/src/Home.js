@@ -46,61 +46,77 @@ export default class Home extends Component {
         <div>
         </div>
         <div className="section">
-          <strong>Patient ID: </strong>
-          <ContractData
-            drizzle={drizzle}
-            drizzleState={drizzleState}
-            contract="MedPass"
-            method="getID"
-            methodArgs={[drizzleState.accounts[0]]}
-          />
-          <br />
-          <strong>Name: </strong>
-          <ContractData
-            drizzle={drizzle}
-            drizzleState={drizzleState}
-            contract="MedPass"
-            method="getName"
-            methodArgs={[drizzleState.accounts[0]]}
-          />
-          <br />
-          {this.state.testCount === 0 ? (
-            <h4 className="text-center">You have yet to do your first test!</h4>
-          ) : ([
-            <strong>Condition: </strong>,
+          <div className="setting-section border">
+            <strong>Patient ID: </strong>
             <ContractData
               drizzle={drizzle}
               drizzleState={drizzleState}
               contract="MedPass"
-              method="getCondition"
+              method="getID"
               methodArgs={[drizzleState.accounts[0]]}
-            />,
-            <br />,
-            <strong>Time: {this.state.testTime} </strong>,
-            <br />,
-            <strong>Test Count: {this.state.testCount} </strong>
-          ])}
+            />
+            <br />
+            <strong>Name: </strong>
+            <ContractData
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+              contract="MedPass"
+              method="getName"
+              methodArgs={[drizzleState.accounts[0]]}
+            />
+            <br />
+            {this.state.testCount === 0 ? (
+              <h4 className="text-center">You have yet to do your first test!</h4>
+            ) : ([
+              <strong>Condition: </strong>,
+              <ContractData
+                drizzle={drizzle}
+                drizzleState={drizzleState}
+                contract="MedPass"
+                method="getCondition"
+                methodArgs={[drizzleState.accounts[0]]}
+              />,
+              <br />,
+              <strong>Time: {this.state.testTime} </strong>,
+              <br />,
+              <strong>Test Count: {this.state.testCount} </strong>
+            ])}
+          </div>
         </div>
         <div className="section">
           {this.state.tests.map((test, key) => {
+
+            let testTime = new Date(test.timestamp * 1000);
+            let time = testTime.toLocaleDateString() + ', ' + testTime.toLocaleTimeString();
             let condition = 'Negative';
             if (test.condition === '1') {
               condition = 'Positive';
+              return (
+                <div className="card text-center mb-3" key={key}>
+                  <div className="card-header">
+                    <h6>Test ID: {test.id} </h6>
+                  </div>
+                  <div className="text-center" id="qr-code">
+                    <QRCode value={test.id} size="100" fgColor="#CC0000"/>
+                  </div>
+                  <span className="test-field"><b>Condition:</b> {condition}</span>
+                  <span className="test-field"><b>Test Time:</b> {time}</span>
+                </div>
+              )
             }
-            let testTime = new Date(test.timestamp * 1000);
-            let time = testTime.toLocaleDateString() + ', ' + testTime.toLocaleTimeString();
             return (
               <div className="card text-center mb-3" key={key}>
                 <div className="card-header">
                   <h6>Test ID: {test.id} </h6>
                 </div>
                 <div className="text-center" id="qr-code">
-                  <QRCode value={test.id} size="100"/>
+                  <QRCode value={test.id} size="100" fgColor="#32CD32"/>
                 </div>
                 <span className="test-field"><b>Condition:</b> {condition}</span>
                 <span className="test-field"><b>Test Time:</b> {time}</span>
               </div>
             )
+
           })
           }
           <hr />
