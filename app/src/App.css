@@ -1,13 +1,12 @@
 .App {
   text-align: center;
 }
-
 .section {
   text-align: left;
-  max-width: 720px;
-  margin: 4rem auto auto;
+  max-width: 750px;
+  margin: 2.5rem auto auto;
 }
-
+/* input number spin buttons disabled */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -16,40 +15,42 @@ input::-webkit-inner-spin-button {
 #logo {
   width: 10rem;
 }
-.pure-form {
-  text-align: center;
+/* TESTS */
+.card-header {
+  background-color: #647D96 !important;
+  color: white;
 }
-.pure-form input{
-  display: block;
-  width: 100%;
-  padding: .375rem .75rem;
+.card-header h6 {
+  margin-bottom: 0;
+}
+#qr-code {
+  margin: 1rem 0 1rem 0;
+}
+.test-field {
+  margin-bottom: .5rem;
+}
+/* SETTINGS */
+.setting-section {
+  margin: 2rem 0 2rem 0;
+  padding: 2rem;
+  text-align: left;
+  background-color: #F8F9FA !important;
+  border-radius: 2rem;
+}
+.setting-section form {
+  margin-bottom: 0;
+}
+.setting-section form input {
   margin-bottom: 1rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
-.pure-button {
-  color: #fff;
-  background-color: #28a745;
-  border-color: #28a745;
-  display: inline-block;
-  font-weight: 400;
+h2 {
+  text-decoration: underline !important;
+  margin-bottom: 1rem !important;
+}
+.btn-container {
+  margin-top: 1rem;
   text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: .25rem;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-container button {
+  margin-right: 1rem;
 }

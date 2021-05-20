@@ -94,11 +94,11 @@ export default class Home extends Component {
                 <div className="card-header">
                   <h6>Test ID: {test.id} </h6>
                 </div>
-                <div className="text-center">
-                <QRCode value={test.id} size="100"/>
+                <div className="text-center" id="qr-code">
+                  <QRCode value={test.id} size="100"/>
                 </div>
-                <span>Test Time: {time}</span>
-                <span>Condition: {condition}</span>
+                <span className="test-field"><b>Condition:</b> {condition}</span>
+                <span className="test-field"><b>Test Time:</b> {time}</span>
               </div>
             )
           })
