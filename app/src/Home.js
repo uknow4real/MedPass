@@ -5,7 +5,6 @@ import QRCode from "react-qr-code";
 const { ContractData } = newContextComponents;
 
 export default class Home extends Component {
-
   componentDidMount() {
     const drizzle = this.props.drizzle
     const drizzleState = this.props.drizzleState
@@ -36,7 +35,6 @@ export default class Home extends Component {
       tests: []
     }
   }
-
   render() {
     const drizzle = this.props.drizzle
     const drizzleState = this.props.drizzleState
@@ -65,7 +63,7 @@ export default class Home extends Component {
               methodArgs={[drizzleState.accounts[0]]}
             />
             <br />
-            {this.state.testCount === 0 ? (
+            {this.state.testCount === '0' ? (
               <h4 className="text-center">You have yet to do your first test!</h4>
             ) : ([
               <strong>Condition: </strong>,
