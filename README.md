@@ -15,4 +15,5 @@ npm install react-bootstrap bootstrap --save
 npm install @drizzle/store @drizzle/react-plugin @drizzle/
 npm install react-router-dom
 npm install react-qr-code
+npm install react-datepicker
 ```
