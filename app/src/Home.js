@@ -15,9 +15,14 @@ export default class Home extends Component {
     const totalTestCount = await drizzle.contracts.MedPass.methods.getTotalTestCount().call()
     const testCount = await drizzle.contracts.MedPass.methods.getTestCount(drizzleState.accounts[0]).call()
     const time = await drizzle.contracts.MedPass.methods.getTestTime(drizzleState.accounts[0]).call()
+    const bday = await drizzle.contracts.MedPass.methods.getBday(drizzleState.accounts[0]).call()
     let testTime = new Date(time * 1000);
+    let birthday = new Date(bday * 1000);
 
-    this.setState({ totalTestCount: totalTestCount, testCount: testCount, testTime: testTime.toLocaleDateString() + ', ' + testTime.toLocaleTimeString() })
+    this.setState({
+      totalTestCount: totalTestCount, testCount: testCount, testTime: testTime.toLocaleDateString()
+        + ', ' + testTime.toLocaleTimeString(), birthday: birthday.toLocaleDateString()
+    })
     for (let i = 1; i <= testCount; i++) {
       let test = await drizzle.contracts.MedPass.methods.personTests(i).call()
       this.setState({
@@ -32,6 +37,7 @@ export default class Home extends Component {
       totalTestCount: null,
       testCount: null,
       testTime: null,
+      birthday: null,
       tests: []
     }
   }
@@ -63,14 +69,14 @@ export default class Home extends Component {
               methodArgs={[drizzleState.accounts[0]]}
             />
             <br />
-            <strong>Birthday: </strong>
-            <ContractData
+            <strong>Birthday: </strong><span>{this.state.birthday}</span>
+            {/*<ContractData
               drizzle={drizzle}
               drizzleState={drizzleState}
               contract="MedPass"
               method="getBday"
               methodArgs={[drizzleState.accounts[0]]}
-            />
+            />*/}
             <br />
             <strong>Vaccination: </strong>
             <ContractData
@@ -101,7 +107,6 @@ export default class Home extends Component {
         </div>
         <div className="section">
           {this.state.tests.map((test, key) => {
-
             let testTime = new Date(test.timestamp * 1000);
             let time = testTime.toLocaleDateString() + ', ' + testTime.toLocaleTimeString();
             let condition = 'Negative';
@@ -113,7 +118,7 @@ export default class Home extends Component {
                     <h6>Test ID: {test.id} </h6>
                   </div>
                   <div className="text-center" id="qr-code">
-                    <QRCode value={test.id} size="100" fgColor="#CC0000"/>
+                    <QRCode value={test.id} size="100" fgColor="#CC0000" />
                   </div>
                   <span className="test-field"><b>Condition:</b> {condition}</span>
                   <span className="test-field"><b>Test Time:</b> {time}</span>
@@ -127,7 +132,7 @@ export default class Home extends Component {
                   <h6>Test ID: {test.id} </h6>
                 </div>
                 <div className="text-center" id="qr-code">
-                  <QRCode value={test.id} size="100" fgColor="#32CD32"/>
+                  <QRCode value={test.id} size="100" fgColor="#32CD32" />
                 </div>
                 <span className="test-field"><b>Condition:</b> {condition}</span>
                 <span className="test-field"><b>Test Time:</b> {time}</span>

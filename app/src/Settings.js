@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { newContextComponents } from "@drizzle/react-components";
-import DatePicker from 'react-datepicker'
+import DatePicker from 'react-datepicker';
+//import InfiniteCalendar from 'react-infinite-calendar';
+//import 'react-infinite-calendar/styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 const { AccountData } = newContextComponents;
 
@@ -18,11 +20,10 @@ export default class Settings extends Component {
         super(props)
         this.state = {
             isAdmin: false,
-            stateDate: new Date().setHours(0, 0, 0, 0)
+            stateDate: new Date()
         }
     }
-    //TODO Update
-    updateDate = picked => {
+    updateDate(picked) {
         this.setState({ stateDate: picked });
     };
     render() {
@@ -32,12 +33,13 @@ export default class Settings extends Component {
         async function setPerson() {
             let fName = document.getElementById("fname").value;
             let lName = document.getElementById("lname").value;
-            let bday = unixdate;
+            let bday = getDate();
+            console.log(bday);
             await drizzle.contracts.MedPass.methods.setPerson(fName, lName, bday).send()
             alert("Profile successfully updated!");
         }
-        function setDate(date) {
-            unixdate = date.getTime() / 1000;
+        function getDate() {
+            unixdate = this.state.stateDate / 1000;
             console.log(unixdate)
             return unixdate;
         }
@@ -72,7 +74,7 @@ export default class Settings extends Component {
                         <form className="form-group">
                             <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                             <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
-                            <DatePicker onChange={date => { setDate(date)/*this.updateDate(date);*/ }} selected={this.state.stateDate} maxDate={new Date()} />
+                            <DatePicker />
                             <div className="btn-container">
                                 <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
                             </div>
@@ -123,7 +125,7 @@ export default class Settings extends Component {
                     <form className="form-group">
                         <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                         <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
-                        <DatePicker onChange={date => { setDate(date)/*this.updateDate(date);*/ }} selected={this.state.stateDate} maxDate={new Date()} />
+                        <DatePicker onChange={data => this.updateDate(data)} selected={this.state.stateDate}/>
                         <div className="btn-container">
                             <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
                         </div>
