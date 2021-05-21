@@ -7,11 +7,13 @@ contract MedPass {
     string fullName;
 
     enum Condition {Negative, Positive}
-
+    enum VaccineType {None, Moderna, Pfizer, AstraZeneca}
+    
     struct Person {
         uint32 id;
-        bool isRegistered;
         string name;
+        uint bday;
+        VaccineType vaccine;
         uint testCount;
     }
     
@@ -20,7 +22,7 @@ contract MedPass {
     
     struct Test {
         uint32 id;
-        address tester_address;
+        address by_admin;
         uint32 patient_id;
         Condition condition;
         uint timestamp;
@@ -40,7 +42,7 @@ contract MedPass {
     mapping (uint32 => address) private idToAdd;
 
     // default person
-    Person p = Person(1, false, "Your Name", 0);
+    Person p = Person(1, "Your Name", 1621607249, VaccineType.None, 0);
     // default test
     Test t = Test(0, msg.sender, 1, Condition.Negative, block.timestamp);
 
@@ -54,33 +56,75 @@ contract MedPass {
         return identity[_owner].name;
     }
 
-    function setName(string memory _fname, string memory _lname) public {
+    function getBday(address _owner) public view returns (uint) {
+        return identity[_owner].bday;
+    }
+
+    function getVaccine(address _owner) public view returns (string memory _vaccine) {
+        if (identity[_owner].vaccine == VaccineType.None) {
+            return "None";
+        }
+        if (identity[_owner].vaccine == VaccineType.Moderna) {
+            return "Moderna";
+        }
+        if (identity[_owner].vaccine == VaccineType.Pfizer) {
+            return "Pfizer";
+        }
+        if (identity[_owner].vaccine == VaccineType.AstraZeneca) {
+            return "AstraZeneca";
+        }
+    }
+
+    function setPerson(string memory _fname, string memory _lname, uint _bday) public {
         // get address of account
         owner = msg.sender;
 
+        // NAME
         // concantate First & Last Name into one string
         bytes memory s;
         s = abi.encodePacked(_fname);
         s = abi.encodePacked(s, " ");
         s = abi.encodePacked(s, _lname);
         fullName = string(s);
-
         // set name of person and map it to account address
         identity[owner].name = fullName;
-
+        
+        // ID
         uint32 id = getID(owner);
         addToID[owner] = id;
         idToAdd[id] = owner;
 
-        if (identity[owner].isRegistered == false) {
-            identity[owner].testCount = 0;
-            identity[owner].isRegistered = true;
+        // BDAY
+        identity[owner].bday = _bday;
+        // VACCINE
+        identity[owner].vaccine  = VaccineType.None;
+    }
+
+    function setVaccine(uint32 _id, string memory _vaccine) public onlyAdmin {
+        bytes memory vaccine = bytes(_vaccine);
+        bytes32 Hash = keccak256(vaccine);
+        if (Hash == keccak256("None")) {
+            identity[idToAdd[_id]].vaccine  = VaccineType.None;
+        }
+        if (Hash == keccak256("Moderna")) {
+            identity[idToAdd[_id]].vaccine  = VaccineType.Moderna;
+        }
+        if (Hash == keccak256("Pfizer")) {
+            identity[idToAdd[_id]].vaccine  = VaccineType.Pfizer;
+        }
+        if (Hash == keccak256("AstraZeneca")) {
+            identity[idToAdd[_id]].vaccine  = VaccineType.AstraZeneca;
         }
     }
 
     function setAdmin() public {
         require(!adminmapping[msg.sender]);
         adminmapping[msg.sender] = true;
+    }
+
+    function getByAdmin (address _owner) public view returns (address) {
+        uint testID = identity[_owner].testCount;
+        return personTests[testID].by_admin;
     }
 
     function getCondition(address _owner) public view returns (string memory condi) {
@@ -106,27 +150,6 @@ contract MedPass {
     function getTotalTestCount() public view returns (uint) {
         return totalTestCount;
     }
-
-    /*function setCondition(uint32 _id, string memory _condition) public {
-        approvedBy[idToAdd[_id]] = msg.sender;
-
-        t.tester_address = approvedBy[idToAdd[_id]];
-        // keccak256() only accept bytes as arguments, so we need explicit conversion
-        bytes memory condi = bytes(_condition);
-        bytes32 Hash = keccak256(condi);
-            
-        totalTestCount++;
-        t.patient_id = _id;
-        personTests[idToAdd[_id]].timestamp = block.timestamp;
-
-        if (Hash == keccak256("Negative")) {
-            t.condition = Condition.Negative;
-        }
-        if (Hash == keccak256("Positive")) {
-            t.condition = Condition.Positive;
-        }
-        personTests[idToAdd[_id]] = t.condition;
-    }*/
 
     function createTest(uint32 _id, string memory _condition) public onlyAdmin {
         // keccak256() only accept bytes as arguments, so we need explicit conversion

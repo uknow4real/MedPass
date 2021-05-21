@@ -63,6 +63,24 @@ export default class Home extends Component {
               methodArgs={[drizzleState.accounts[0]]}
             />
             <br />
+            <strong>Birthday: </strong>
+            <ContractData
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+              contract="MedPass"
+              method="getBday"
+              methodArgs={[drizzleState.accounts[0]]}
+            />
+            <br />
+            <strong>Vaccination: </strong>
+            <ContractData
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+              contract="MedPass"
+              method="getVaccine"
+              methodArgs={[drizzleState.accounts[0]]}
+            />
+            <br />
             {this.state.testCount === '0' ? (
               <h4 className="text-center">You have yet to do your first test!</h4>
             ) : ([
@@ -99,6 +117,7 @@ export default class Home extends Component {
                   </div>
                   <span className="test-field"><b>Condition:</b> {condition}</span>
                   <span className="test-field"><b>Test Time:</b> {time}</span>
+                  <span className="test-field"><b>Tested by:</b> {test.by_admin}</span>
                 </div>
               )
             }
@@ -112,6 +131,7 @@ export default class Home extends Component {
                 </div>
                 <span className="test-field"><b>Condition:</b> {condition}</span>
                 <span className="test-field"><b>Test Time:</b> {time}</span>
+                <span className="test-field"><b>Tested by:</b> {test.by_admin}</span>
               </div>
             )
 

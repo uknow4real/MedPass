@@ -22,11 +22,12 @@ export default class Settings extends Component {
     render() {
         const drizzle = this.props.drizzle
         const drizzleState = this.props.drizzleState
-        async function setName() {
+        async function setPerson() {
             let fName = document.getElementById("fname").value;
             let lName = document.getElementById("lname").value;
-            await drizzle.contracts.MedPass.methods.setName(fName, lName).send()
-            alert("Name successfully updated!");
+            let bday = 1621607249;
+            await drizzle.contracts.MedPass.methods.setPerson(fName, lName, bday).send()
+            alert("Profile successfully updated!");
         }
         async function setAdmin() {
             await drizzle.contracts.MedPass.methods.setAdmin().send()
@@ -34,7 +35,7 @@ export default class Settings extends Component {
             window.location.reload()
         }
         async function setCondition(bool) {
-            let patientID = document.getElementById("patientID").value;
+            let patientID = document.getElementById("patientID_t").value;
             if (bool === true) {
                 let condition = "Positive";
                 await drizzle.contracts.MedPass.methods.createTest(patientID, condition).send()
@@ -46,6 +47,12 @@ export default class Settings extends Component {
                 alert("Test successfully created!");
             }
         }
+        async function setVaccine() {
+            let patientID = document.getElementById("patientID_v").value;
+            let vaccine = document.getElementById("vaccine").value;
+            await drizzle.contracts.MedPass.methods.setVaccine(patientID, vaccine).send()
+            alert("Vaccination successfully set!");
+        }
         if (this.state.isAdmin === true) {
             return (
                 <div className="section">
@@ -55,7 +62,7 @@ export default class Settings extends Component {
                             <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                             <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
                             <div className="btn-container">
-                                <button type="button" className="btn btn-success" onClick={setName}>Submit</button>
+                                <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
                             </div>
                         </form>
                         <h5>Wallet Address</h5>
@@ -71,10 +78,18 @@ export default class Settings extends Component {
                     <div className="setting-section border">
                         <h2>Create test</h2>
                         <form className="form-group">
-                            <input type="number" className="form-control" id="patientID" placeholder="Patient ID"></input>
+                            <input type="number" className="form-control" id="patientID_t" placeholder="Patient ID"></input>
                             <div className="btn-container">
                                 <button type="button" className="btn btn-danger" onClick={() => setCondition(true)}>Positive</button>
                                 <button type="button" className="btn btn-success" onClick={() => setCondition(false)}>Negative</button>
+                            </div>
+                        </form>
+                        <h2>Set vaccination</h2>
+                        <form className="form-group">
+                            <input type="number" className="form-control" id="patientID_v" placeholder="Patient ID"></input>
+                            <input type="text" className="form-control" id="vaccine" placeholder="Vaccine type"></input>
+                            <div className="btn-container">
+                                <button type="button" className="btn btn-success" onClick={setVaccine}>Set vaccine</button>
                             </div>
                         </form>
                     </div>
@@ -89,7 +104,7 @@ export default class Settings extends Component {
                         <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                         <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
                         <div className="btn-container">
-                            <button type="button" className="btn btn-success" onClick={setName}>Submit</button>
+                            <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
                         </div>
                     </form>
                     <h5>Wallet Address</h5>

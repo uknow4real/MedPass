@@ -27,7 +27,7 @@ export default () => {
                 <Route exact path="/" render={() => {
                   return <Home drizzle={drizzle} drizzleState={drizzleState} />
                 }} />
-                <Route exact path="/register" component={() => <Settings drizzle={drizzle} drizzleState={drizzleState} />} />
+                <Route exact path="/settings" component={() => <Settings drizzle={drizzle} drizzleState={drizzleState} />} />
               </Switch>
             </Router>
 
