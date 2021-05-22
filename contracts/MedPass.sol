@@ -11,49 +11,55 @@ contract MedPass {
 
     struct Vaccine {
         VaccineType vaccine;
-        uint amount;
+        uint256 amount;
     }
-    
+
     struct Person {
+        bool registered;
         uint32 id;
         string name;
-        uint bday;
+        int256 bday;
         VaccineType vaccine;
-        uint testCount;
-        uint v_required;
+        uint256 testCount;
+        uint256 v_required;
     }
-    
+
     // rename
-    uint totalTestCount = 0;
-    
+    uint256 totalTestCount = 0;
+
     struct Test {
         uint32 id;
         address by_admin;
         uint32 patient_id;
         Condition condition;
-        uint timestamp;
+        uint256 timestamp;
     }
 
-    modifier onlyAdmin(){
+    modifier onlyAdmin() {
         require(adminmapping[msg.sender] == true);
         _;
     }
-    
-    // struct mappings
-    mapping (address => Person) private identity;
-    mapping (address => bool) public adminmapping;
-    mapping (uint => Test) public personTests;
-    mapping (VaccineType => uint) public v_amount;
 
-    mapping (address => uint32) private addToID;
-    mapping (uint32 => address) private idToAdd;
+    // struct mappings
+    mapping(address => Person) private identity;
+    mapping(address => bool) public adminmapping;
+    mapping(uint256 => Test) public personTests;
+    mapping(VaccineType => uint256) public v_amount;
+
+    mapping(address => uint32) private addToID;
+    mapping(uint32 => address) private idToAdd;
 
     // default person
-    Person p = Person(1, "Your Name", 1621607249, VaccineType.None, 0, 2);
+    Person p =
+        Person(false, 1, "Your Name", 1621607249, VaccineType.None, 0, 2);
     // default test
     Test t = Test(0, msg.sender, 1, Condition.Negative, block.timestamp);
-    
-    function setPerson(string memory _fname, string memory _lname, uint _bday) public {
+
+    function setPerson(
+        string memory _fname,
+        string memory _lname,
+        int256 _bday
+    ) public {
         // get address of account
         owner = msg.sender;
 
@@ -73,8 +79,11 @@ contract MedPass {
         // BDAY
         identity[owner].bday = _bday;
         // VACCINE
-        identity[owner].vaccine  = VaccineType.None;
-        identity[owner].v_required = 2;
+        if (!identity[owner].registered) {
+            identity[owner].vaccine = VaccineType.None;
+            identity[owner].v_required = 2;
+        }
+        identity[owner].registered = true;
     }
 
     function setAdmin() public {
@@ -86,22 +95,25 @@ contract MedPass {
         bytes memory vaccine = bytes(_vaccine);
         bytes32 Hash = keccak256(vaccine);
         if (Hash == keccak256("None")) {
-            identity[idToAdd[_id]].vaccine  = VaccineType.None;
+            identity[idToAdd[_id]].vaccine = VaccineType.None;
         }
         if (Hash == keccak256("Moderna")) {
-            identity[idToAdd[_id]].vaccine  = VaccineType.Moderna;
+            identity[idToAdd[_id]].vaccine = VaccineType.Moderna;
         }
         if (Hash == keccak256("Pfizer")) {
-            identity[idToAdd[_id]].vaccine  = VaccineType.Pfizer;
+            identity[idToAdd[_id]].vaccine = VaccineType.Pfizer;
         }
         if (Hash == keccak256("AstraZeneca")) {
-            identity[idToAdd[_id]].vaccine  = VaccineType.AstraZeneca;
+            identity[idToAdd[_id]].vaccine = VaccineType.AstraZeneca;
         }
         v_amount[identity[idToAdd[_id]].vaccine] -= 1;
         identity[idToAdd[_id]].v_required -= 1;
     }
 
-    function addV_amount(string memory _type, uint _amount) public onlyAdmin {        
+    function addV_amount(string memory _type, uint256 _amount)
+        public
+        onlyAdmin
+    {
         bytes memory vtype = bytes(_type);
         bytes32 Hash = keccak256(vtype);
         if (Hash == keccak256("Moderna")) {
@@ -118,7 +130,10 @@ contract MedPass {
         }
     }
 
-    function subV_amount(string memory _type, uint _amount) public onlyAdmin {        
+    function subV_amount(string memory _type, uint256 _amount)
+        public
+        onlyAdmin
+    {
         bytes memory vtype = bytes(_type);
         bytes32 Hash = keccak256(vtype);
         if (Hash == keccak256("Moderna")) {
@@ -140,11 +155,16 @@ contract MedPass {
         bytes memory condi = bytes(_condition);
         bytes32 Hash = keccak256(condi);
 
-        uint32 id = uint32(uint256(keccak256(abi.encodePacked(idToAdd[_id],block.timestamp))));
+        uint32 id =
+            uint32(
+                uint256(
+                    keccak256(abi.encodePacked(idToAdd[_id], block.timestamp))
+                )
+            );
 
         totalTestCount++;
         identity[idToAdd[_id]].testCount += 1;
-        uint testCount = identity[idToAdd[_id]].testCount;
+        uint256 testCount = identity[idToAdd[_id]].testCount;
 
         personTests[testCount].timestamp = block.timestamp;
 
@@ -155,8 +175,15 @@ contract MedPass {
             t.condition = Condition.Positive;
         }
         personTests[testCount].condition = t.condition;
-        Test memory test = Test(id, msg.sender, _id, personTests[testCount].condition, block.timestamp);
-        
+        Test memory test =
+            Test(
+                id,
+                msg.sender,
+                _id,
+                personTests[testCount].condition,
+                block.timestamp
+            );
+
         personTests[testCount] = test;
     }
 
@@ -170,15 +197,19 @@ contract MedPass {
         return identity[_owner].name;
     }
 
-    function getBday(address _owner) public view returns (uint) {
+    function getBday(address _owner) public view returns (int256) {
         return identity[_owner].bday;
     }
 
-    function getV_Required(address _owner) public view returns (uint) {
+    function getV_Required(address _owner) public view returns (uint256) {
         return identity[_owner].v_required;
     }
 
-    function getVaccine(address _owner) public view returns (string memory _vaccine) {
+    function getVaccine(address _owner)
+        public
+        view
+        returns (string memory _vaccine)
+    {
         if (identity[_owner].vaccine == VaccineType.None) {
             return "None";
         }
@@ -193,13 +224,17 @@ contract MedPass {
         }
     }
 
-    function getByAdmin (address _owner) public view returns (address) {
-        uint testID = identity[_owner].testCount;
+    function getByAdmin(address _owner) public view returns (address) {
+        uint256 testID = identity[_owner].testCount;
         return personTests[testID].by_admin;
     }
 
-    function getCondition(address _owner) public view returns (string memory condi) {
-        uint testID = identity[_owner].testCount;
+    function getCondition(address _owner)
+        public
+        view
+        returns (string memory condi)
+    {
+        uint256 testID = identity[_owner].testCount;
         if (personTests[testID].condition == Condition.Positive) {
             return "Positive";
         }
@@ -208,21 +243,25 @@ contract MedPass {
         }
     }
 
-    function getTestTime(address _owner) public view returns (uint) {
-        uint testID = identity[_owner].testCount;
+    function getTestTime(address _owner) public view returns (uint256) {
+        uint256 testID = identity[_owner].testCount;
         return personTests[testID].timestamp;
     }
 
-    function getTestCount(address _owner) public view returns (uint) {
-        uint testID = identity[_owner].testCount;
-        return testID;
+    function getTestCount(address _owner) public view returns (uint256) {
+        uint256 testcount = identity[_owner].testCount;
+        return testcount;
     }
-    
-    function getTotalTestCount() public view returns (uint) {
+
+    function getTotalTestCount() public view returns (uint256) {
         return totalTestCount;
     }
 
-    function getV_amount(string memory _type) public view returns (uint amount) {
+    function getV_amount(string memory _type)
+        public
+        view
+        returns (uint256 amount)
+    {
         bytes memory vtype = bytes(_type);
         bytes32 Hash = keccak256(vtype);
         if (Hash == keccak256("Moderna")) {
@@ -234,5 +273,10 @@ contract MedPass {
         if (Hash == keccak256("AstraZeneca")) {
             return v_amount[VaccineType.AstraZeneca];
         }
+    }
+
+    function getRegistered(address _owner) public view returns (bool) {
+        bool isregistered = identity[_owner].registered;
+        return isregistered;
     }
 }

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { newContextComponents } from "@drizzle/react-components";
 import QRCode from "react-qr-code";
 
 export default class Home extends Component {
@@ -19,12 +18,13 @@ export default class Home extends Component {
     const condition = await drizzle.contracts.MedPass.methods.getCondition(drizzleState.accounts[0]).call()
     const v_type = await drizzle.contracts.MedPass.methods.getVaccine(drizzleState.accounts[0]).call()
     const v_required = await drizzle.contracts.MedPass.methods.getV_Required(drizzleState.accounts[0]).call()
+    const registered = await drizzle.contracts.MedPass.methods.getRegistered(drizzleState.accounts[0]).call()
     let testTime = new Date(time * 1000);
     let birthday = new Date(bday * 1000);
 
     this.setState({
       totalTestCount: totalTestCount, testCount: testCount, testTime: testTime.toLocaleDateString()
-        + ', ' + testTime.toLocaleTimeString(), id: id, name: name, birthday: birthday.toLocaleDateString(), condition: condition, v_type: v_type, v_required: v_required
+        + ', ' + testTime.toLocaleTimeString(), id: id, name: name, birthday: birthday.toLocaleDateString(), condition: condition, v_type: v_type, v_required: v_required, registered: registered
     })
     for (let i = testCount; i >= 1; i--) {
       let test = await drizzle.contracts.MedPass.methods.personTests(i).call()
@@ -46,13 +46,33 @@ export default class Home extends Component {
       condition: null,
       v_type: null,
       v_required: null,
+      registered: false,
       tests: []
     }
   }
   render() {
-    const drizzle = this.props.drizzle
-    const drizzleState = this.props.drizzleState
-    const { totalTestCount, testCount, testTime, id, name, birthday, tests, condition, v_type, v_required } = this.state;
+
+    const { totalTestCount, testCount, testTime, id, name, birthday, tests, condition, v_type, v_required, registered } = this.state;
+
+    if (registered === false) {
+      return (
+        <div className="App">
+          <div className="section">
+            <div className="setting-section border">
+              <h3>Welcome to MedPass!</h3> <br /><h6>Please go to the Settings page to setup your account.</h6>
+            </div>
+
+            <hr />
+            <h6 class="text-center">Total tests created by MedPass Blockchain: {totalTestCount}</h6>
+            <hr />
+            <iframe title="Covid" src="https://ourworldindata.org/explorers/coronavirus-data-explorer?zoomToSelection=true&time=2021-05-01..latest&pickerSort=desc&pickerMetric=total_cases&hideControls=true&Metric=Confirmed+cases&Interval=7-day+rolling+average&Relative+to+Population=false&Align+outbreaks=false&country=~AUT" loading="lazy" style={{
+              'width': '100%', 'height': '400px', 'border': '0px none'
+            }} />
+
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="App">
         <div className="section">
@@ -62,7 +82,7 @@ export default class Home extends Component {
             <strong>Birthday: </strong><span>{birthday}</span>
             {v_required === '0' && v_type !== 'None' ? ([
               <hr />,
-              <h4 className="text-center">Congratulations! You are now protected. </h4>
+              <h6 className="text-center">Congratulations! You are now protected. </h6>
             ]) : ([
               <hr />,
               <strong>Vaccine Type: </strong>, <span>{v_type} </span>, <br />,
@@ -119,9 +139,8 @@ export default class Home extends Component {
           <hr />
           <iframe title="Covid" src="https://ourworldindata.org/explorers/coronavirus-data-explorer?zoomToSelection=true&time=2021-05-01..latest&pickerSort=desc&pickerMetric=total_cases&hideControls=true&Metric=Confirmed+cases&Interval=7-day+rolling+average&Relative+to+Population=false&Align+outbreaks=false&country=~AUT" loading="lazy" style={{
             'width': '100%', 'height': '400px', 'border': '0px none'
-          }}></iframe>
+          }} />
         </div>
-
       </div>
     );
   }
