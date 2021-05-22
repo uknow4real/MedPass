@@ -12,7 +12,7 @@ const Navigation = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
-                        <Nav.Link href="/vaccine">Vaccince</Nav.Link>
+                        <Nav.Link href="/vaccine">Vaccine</Nav.Link>
                     </Nav>
                     <Nav>
                         <Nav.Link href="/settings">Settings</Nav.Link>
