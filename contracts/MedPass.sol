@@ -20,6 +20,7 @@ contract MedPass {
         uint bday;
         VaccineType vaccine;
         uint testCount;
+        uint v_required;
     }
     
     // rename
@@ -48,7 +49,7 @@ contract MedPass {
     mapping (uint32 => address) private idToAdd;
 
     // default person
-    Person p = Person(1, "Your Name", 1621607249, VaccineType.None, 0);
+    Person p = Person(1, "Your Name", 1621607249, VaccineType.None, 0, 2);
     // default test
     Test t = Test(0, msg.sender, 1, Condition.Negative, block.timestamp);
     
@@ -65,16 +66,15 @@ contract MedPass {
         fullName = string(s);
         // set name of person and map it to account address
         identity[owner].name = fullName;
-        
         // ID
         uint32 id = getID(owner);
         addToID[owner] = id;
         idToAdd[id] = owner;
-
         // BDAY
         identity[owner].bday = _bday;
         // VACCINE
         identity[owner].vaccine  = VaccineType.None;
+        identity[owner].v_required = 2;
     }
 
     function setAdmin() public {
@@ -98,6 +98,7 @@ contract MedPass {
             identity[idToAdd[_id]].vaccine  = VaccineType.AstraZeneca;
         }
         v_amount[identity[idToAdd[_id]].vaccine] -= 1;
+        identity[idToAdd[_id]].v_required -= 1;
     }
 
     function addV_amount(string memory _type, uint _amount) public onlyAdmin {        
@@ -171,6 +172,10 @@ contract MedPass {
 
     function getBday(address _owner) public view returns (uint) {
         return identity[_owner].bday;
+    }
+
+    function getV_Required(address _owner) public view returns (uint) {
+        return identity[_owner].v_required;
     }
 
     function getVaccine(address _owner) public view returns (string memory _vaccine) {

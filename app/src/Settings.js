@@ -71,6 +71,7 @@ export default class Settings extends Component {
                             units="ether"
                             precision={3}
                         />
+                        <hr/>
                         <h2>Settings</h2>
                         <form className="form-group">
                             <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
@@ -123,6 +124,7 @@ export default class Settings extends Component {
                         units="ether"
                         precision={3}
                     />
+                    <hr/>
                     <h2>Settings</h2>
                     <form className="form-group">
                         <input type="text" className="form-control" id="fname" placeholder="First Name"></input>

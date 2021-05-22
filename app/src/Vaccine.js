@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import moderna from "./img/moderna.png";
+import pfizer from "./img/pfizer.png";
+import astrazeneca from "./img/astrazeneca.png";
 
 export default class Settings extends Component {
     componentDidMount() {
@@ -15,7 +18,7 @@ export default class Settings extends Component {
         const m_amount = await drizzle.contracts.MedPass.methods.getV_amount("Moderna").call()
         const p_amount = await drizzle.contracts.MedPass.methods.getV_amount("Pfizer").call()
         const az_amount = await drizzle.contracts.MedPass.methods.getV_amount("AstraZeneca").call()
-        this.setState({ m_amount: m_amount, p_amount: p_amount, az_amount: az_amount})
+        this.setState({ m_amount: m_amount, p_amount: p_amount, az_amount: az_amount })
     }
     constructor(props) {
         super(props)
@@ -29,52 +32,109 @@ export default class Settings extends Component {
     render() {
         const { isAdmin, m_amount, p_amount, az_amount } = this.state;
         const drizzle = this.props.drizzle
-        const drizzleState = this.props.drizzleState
         async function addV_amount() {
             let vaccine = document.getElementById("vaccine").value;
             let amount = document.getElementById("amount_a").value;
             await drizzle.contracts.MedPass.methods.addV_amount(vaccine, amount).send()
-            alert("Vaccine amount set!")
+            alert(amount+" vaccine amount added!")
         }
         async function subV_amount() {
             let vaccine = document.getElementById("vaccine").value;
             let amount = document.getElementById("amount_s").value;
             await drizzle.contracts.MedPass.methods.subV_amount(vaccine, amount).send()
-            alert("Vaccine amount set!")
+            alert(amount+" amount removed!")
         }
         if (isAdmin === true) {
             return (
-                <div>
-                    <h1>Admin</h1>
-                    <span>Moderna: {m_amount}</span>
-                    <br/>
-                    <span>Pfizer: {p_amount}</span>
-                    <br/>
-                    <span>AstraZeneca: {az_amount}</span>
-                    <h3>Add</h3>
-                    <input type="number" className="form-control" id="amount_a" placeholder="Amount"></input>
-                    <h3>Delete</h3>
-                    <input type="number" className="form-control" id="amount_s" placeholder="Amount"></input>
-                    <select className="form-control" id="vaccine">
-                        <option value="Moderna">Moderna</option>
-                        <option value="Pfizer">Pfizer</option>
-                        <option value="AstraZeneca">AstraZeneca</option>
-                    </select>
-                    <div className="btn-container">
-                        <button type="button" className="btn btn-success" onClick={addV_amount}>Add vaccine amount</button>
-                        <button type="button" className="btn btn-danger" onClick={subV_amount}>Subtract vaccine amount</button>
+                <div className="App">
+                    <div className="section">
+                        <div className="setting-section border">
+                            <h2>Vaccine Statistic</h2>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <span>Moderna: {m_amount}</span>
+                                </div>
+                                <div class="col-sm">
+                                    <img src={moderna} alt="moderna" style={{ height: '30px' }} />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm">
+                                    <span>Pfizer: {p_amount}</span>
+                                </div>
+                                <div class="col-sm">
+                                    <img src={pfizer} alt="pfizer" style={{ height: '30px' }} />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm">
+                                    <span>AstraZeneca: {az_amount}</span>
+                                </div>
+                                <div class="col-sm">
+                                    <img src={astrazeneca} alt="astrazeneca" style={{ height: '30px' }} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="setting-section border">
+                            <h2>Admin Inventory</h2>
+                            <h4>Select Vaccine Type</h4>
+                            <select className="form-control" id="vaccine">
+                                <option value="Moderna">Moderna</option>
+                                <option value="Pfizer">Pfizer</option>
+                                <option value="AstraZeneca">AstraZeneca</option>
+                            </select>
+                            <br />
+                            <h4>Add Vaccine</h4>
+                            <input type="number" className="form-control" id="amount_a" placeholder="Amount"></input>
+                            <div className="btn-container">
+                                <button type="button" className="btn btn-success" onClick={addV_amount}>Add Confirm</button>
+                            </div>
+                            <h4>Remove Vaccine</h4>
+                            <input type="number" className="form-control" id="amount_s" placeholder="Amount"></input>
+
+                            <div className="btn-container">
+                                <button type="button" className="btn btn-danger" onClick={subV_amount}>Remove Confirm</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )
         }
         return (
-            <div>
-                <h1>No Admin</h1>
-                <span>Moderna: {m_amount}</span>
-                <br/>
-                <span>Pfizer: {p_amount}</span>
-                <br/>
-                <span>AstraZeneca: {m_amount}</span>
+            <div className="App">
+                <div className="section">
+                    <div className="setting-section border">
+                        <h2>Vaccine Statistic</h2>
+                        <div class="row">
+                            <div class="col-sm">
+                                <span>Moderna: {m_amount}</span>
+                            </div>
+                            <div class="col-sm">
+                                <img src={moderna} alt="moderna" style={{ height: '30px' }} />
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm">
+                                <span>Pfizer: {p_amount}</span>
+                            </div>
+                            <div class="col-sm">
+                                <img src={pfizer} alt="pfizer" style={{ height: '30px' }} />
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm">
+                                <span>AstraZeneca: {az_amount}</span>
+                            </div>
+                            <div class="col-sm">
+                                <img src={astrazeneca} alt="astrazeneca" style={{ height: '30px' }} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
