@@ -11,7 +11,10 @@ const Navigation = () => {
                 <Navbar.Brand href="/"><img src={logo} className="d-inline-block align-top" id="logo" alt="medpass-logo" /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
+                    <Nav>
+                        <Nav.Link href="/vaccine">Vaccince</Nav.Link>
+                    </Nav>
+                    <Nav>
                         <Nav.Link href="/settings">Settings</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
