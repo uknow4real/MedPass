@@ -23,7 +23,7 @@ export default class Home extends Component {
       totalTestCount: totalTestCount, testCount: testCount, testTime: testTime.toLocaleDateString()
         + ', ' + testTime.toLocaleTimeString(), birthday: birthday.toLocaleDateString()
     })
-    for (let i = 1; i <= testCount; i++) {
+    for (let i = testCount; i >= 1; i--) {
       let test = await drizzle.contracts.MedPass.methods.personTests(i).call()
       this.setState({
         tests: [...this.state.tests, test]

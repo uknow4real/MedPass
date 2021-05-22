@@ -63,15 +63,6 @@ export default class Settings extends Component {
             return (
                 <div className="section">
                     <div className="setting-section border">
-                        <h2>Settings</h2>
-                        <form className="form-group">
-                            <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
-                            <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
-                            <DatePicker onChange={data => this.updateDate(data)} selected={stateDate} maxDate={new Date()} />
-                            <div className="btn-container">
-                                <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
-                            </div>
-                        </form>
                         <h5>Wallet Address</h5>
                         <AccountData
                             drizzle={drizzle}
@@ -80,6 +71,15 @@ export default class Settings extends Component {
                             units="ether"
                             precision={3}
                         />
+                        <h2>Settings</h2>
+                        <form className="form-group">
+                            <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
+                            <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
+                            <DatePicker onChange={data => this.updateDate(data)} selected={stateDate} maxDate={new Date()} showYearDropdown />
+                            <div className="btn-container">
+                                <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
+                            </div>
+                        </form>
                         <div className="btn-container">
                             <button type="button" className="btn btn-info">You are an Admin!</button>
                         </div>
@@ -116,22 +116,24 @@ export default class Settings extends Component {
             <div className="section">
                 <div className="setting-section border">
                     <h2>Settings</h2>
+                    <h5>Wallet Address</h5>
+                    <div className="form-control">
+                        <AccountData
+                            drizzle={drizzle}
+                            drizzleState={drizzleState}
+                            accountIndex={0}
+                            units="ether"
+                            precision={3}
+                        />
+                    </div>
                     <form className="form-group">
                         <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                         <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
-                        <DatePicker onChange={data => this.updateDate(data)} selected={stateDate} maxDate={new Date()} />
+                        <DatePicker onChange={data => this.updateDate(data)} selected={stateDate} maxDate={new Date()} showYearDropdown />
                         <div className="btn-container">
                             <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
                         </div>
                     </form>
-                    <h5>Wallet Address</h5>
-                    <AccountData
-                        drizzle={drizzle}
-                        drizzleState={drizzleState}
-                        accountIndex={0}
-                        units="ether"
-                        precision={3}
-                    />
                     <div className="btn-container">
                         <button type="button" className="btn btn-info" onClick={setAdmin}>Set Admin</button>
                     </div>
