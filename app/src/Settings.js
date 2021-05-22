@@ -115,17 +115,15 @@ export default class Settings extends Component {
         return (
             <div className="section">
                 <div className="setting-section border">
-                    <h2>Settings</h2>
                     <h5>Wallet Address</h5>
-                    <div className="form-control">
-                        <AccountData
-                            drizzle={drizzle}
-                            drizzleState={drizzleState}
-                            accountIndex={0}
-                            units="ether"
-                            precision={3}
-                        />
-                    </div>
+                    <AccountData
+                        drizzle={drizzle}
+                        drizzleState={drizzleState}
+                        accountIndex={0}
+                        units="ether"
+                        precision={3}
+                    />
+                    <h2>Settings</h2>
                     <form className="form-group">
                         <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                         <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
