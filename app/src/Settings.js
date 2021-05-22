@@ -19,7 +19,7 @@ export default class Settings extends Component {
         super(props)
         this.state = {
             isAdmin: false,
-            stateDate: new Date().setHours(0, 0, 0),
+            stateDate: new Date().setHours(0, 0, 0)
         }
     }
     updateDate(picked) {
@@ -67,7 +67,7 @@ export default class Settings extends Component {
                         <form className="form-group">
                             <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                             <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
-                            <DatePicker onChange={data => this.updateDate(data)} selected={this.state.stateDate} />
+                            <DatePicker onChange={data => this.updateDate(data)} selected={stateDate} maxDate={new Date()} />
                             <div className="btn-container">
                                 <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
                             </div>
@@ -80,7 +80,9 @@ export default class Settings extends Component {
                             units="ether"
                             precision={3}
                         />
-                        <button type="button" className="btn btn-info" onClick={setAdmin}>Set Admin</button>
+                        <div className="btn-container">
+                            <button type="button" className="btn btn-info">You are an Admin!</button>
+                        </div>
                     </div>
                     <hr />
                     <h2>Admin Settings</h2>
@@ -117,7 +119,7 @@ export default class Settings extends Component {
                     <form className="form-group">
                         <input type="text" className="form-control" id="fname" placeholder="First Name"></input>
                         <input type="text" className="form-control" id="lname" placeholder="Last Name"></input>
-                        <DatePicker onChange={data => this.updateDate(data)} selected={this.state.stateDate} />
+                        <DatePicker onChange={data => this.updateDate(data)} selected={stateDate} maxDate={new Date()} />
                         <div className="btn-container">
                             <button type="button" className="btn btn-success" onClick={setPerson}>Submit</button>
                         </div>
@@ -130,7 +132,9 @@ export default class Settings extends Component {
                         units="ether"
                         precision={3}
                     />
-                    <button type="button" className="btn btn-info" onClick={setAdmin}>Set Admin</button>
+                    <div className="btn-container">
+                        <button type="button" className="btn btn-info" onClick={setAdmin}>Set Admin</button>
+                    </div>
                 </div>
             </div>
         );
