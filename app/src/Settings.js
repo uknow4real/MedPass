@@ -26,7 +26,7 @@ export default class Settings extends Component {
         this.setState({ stateDate: picked });
     };
     render() {
-        let { stateDate } = this.state;
+        let { isAdmin, stateDate } = this.state;
         const drizzle = this.props.drizzle
         const drizzleState = this.props.drizzleState
         async function setPerson() {
@@ -59,7 +59,7 @@ export default class Settings extends Component {
             await drizzle.contracts.MedPass.methods.setVaccine(patientID, vaccine).send()
             alert("Vaccination successfully set!");
         }
-        if (this.state.isAdmin === true) {
+        if (isAdmin === true) {
             return (
                 <div className="section">
                     <div className="setting-section border">
