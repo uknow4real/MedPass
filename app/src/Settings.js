@@ -26,7 +26,7 @@ export default class Settings extends Component {
         this.setState({ stateDate: picked });
     };
     render() {
-        let { isAdmin, stateDate } = this.state;
+        const { isAdmin, stateDate } = this.state;
         const drizzle = this.props.drizzle
         const drizzleState = this.props.drizzleState
         async function setPerson() {

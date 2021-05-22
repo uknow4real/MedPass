@@ -44,7 +44,7 @@ export default class Home extends Component {
   render() {
     const drizzle = this.props.drizzle
     const drizzleState = this.props.drizzleState
-
+    const { totalTestCount, testCount, testTime, birthday, tests } = this.state;
     return (
       <div className="App">
         <div>
@@ -69,14 +69,7 @@ export default class Home extends Component {
               methodArgs={[drizzleState.accounts[0]]}
             />
             <br />
-            <strong>Birthday: </strong><span>{this.state.birthday}</span>
-            {/*<ContractData
-              drizzle={drizzle}
-              drizzleState={drizzleState}
-              contract="MedPass"
-              method="getBday"
-              methodArgs={[drizzleState.accounts[0]]}
-            />*/}
+            <strong>Birthday: </strong><span>{birthday}</span>
             <br />
             <strong>Vaccination: </strong>
             <ContractData
@@ -87,9 +80,9 @@ export default class Home extends Component {
               methodArgs={[drizzleState.accounts[0]]}
             />
             <br />
-            {this.state.testCount === '0' ? (
+            {testCount === '0' ? (
               <h4 className="text-center">You have yet to do your first test!</h4>
-            ) : ([
+            ) : (
               <strong>Condition: </strong>,
               <ContractData
                 drizzle={drizzle}
@@ -99,14 +92,14 @@ export default class Home extends Component {
                 methodArgs={[drizzleState.accounts[0]]}
               />,
               <br />,
-              <strong>Time: {this.state.testTime} </strong>,
+              <strong>Time: {testTime} </strong>,
               <br />,
-              <strong>Test Count: {this.state.testCount} </strong>
-            ])}
+              <strong>Test Count: {testCount} </strong>
+            )}
           </div>
         </div>
         <div className="section">
-          {this.state.tests.map((test, key) => {
+          {tests.map((test, key) => {
             let testTime = new Date(test.timestamp * 1000);
             let time = testTime.toLocaleDateString() + ', ' + testTime.toLocaleTimeString();
             let condition = 'Negative';
@@ -118,7 +111,7 @@ export default class Home extends Component {
                     <h6>Test ID: {test.id} </h6>
                   </div>
                   <div className="text-center" id="qr-code">
-                    <QRCode value={test.id} size="100" fgColor="#CC0000" />
+                    <QRCode value={test.id} size={100} fgColor="#CC0000" />
                   </div>
                   <span className="test-field"><b>Condition:</b> {condition}</span>
                   <span className="test-field"><b>Test Time:</b> {time}</span>
@@ -132,7 +125,7 @@ export default class Home extends Component {
                   <h6>Test ID: {test.id} </h6>
                 </div>
                 <div className="text-center" id="qr-code">
-                  <QRCode value={test.id} size="100" fgColor="#32CD32" />
+                  <QRCode value={test.id} size={100} fgColor="#32CD32" />
                 </div>
                 <span className="test-field"><b>Condition:</b> {condition}</span>
                 <span className="test-field"><b>Test Time:</b> {time}</span>
@@ -143,7 +136,7 @@ export default class Home extends Component {
           })
           }
           <hr />
-          <h6>Total tests created by MedPass: {this.state.totalTestCount}</h6>
+          <h6>Total tests created by MedPass: {totalTestCount}</h6>
           <hr />
 
           <iframe title="Covid" src="https://ourworldindata.org/explorers/coronavirus-data-explorer?zoomToSelection=true&time=2021-05-01..latest&pickerSort=desc&pickerMetric=total_cases&hideControls=true&Metric=Confirmed+cases&Interval=7-day+rolling+average&Relative+to+Population=false&Align+outbreaks=false&country=~AUT" loading="lazy" style={{
