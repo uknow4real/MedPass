@@ -63,7 +63,7 @@ export default class Home extends Component {
             </div>
 
             <hr />
-            <h6 class="text-center">Total tests created by MedPass Blockchain: {totalTestCount}</h6>
+            <h6 className="text-center">Total tests created by MedPass Blockchain: {totalTestCount}</h6>
             <hr />
             <iframe title="Covid" src="https://ourworldindata.org/explorers/coronavirus-data-explorer?zoomToSelection=true&time=2021-05-01..latest&pickerSort=desc&pickerMetric=total_cases&hideControls=true&Metric=Confirmed+cases&Interval=7-day+rolling+average&Relative+to+Population=false&Align+outbreaks=false&country=~AUT" loading="lazy" style={{
               'width': '100%', 'height': '400px', 'border': '0px none'
@@ -81,21 +81,21 @@ export default class Home extends Component {
             <strong>Name: </strong>{name}<br />
             <strong>Birthday: </strong><span>{birthday}</span>
             {v_required === '0' && v_type !== 'None' ? ([
-              <hr />,
-              <h6 className="text-center">Congratulations! You are now protected. </h6>
+              <hr key="hr"/>,
+              <h6 key="h6" className="text-center">Congratulations! You are now protected. </h6>
             ]) : ([
-              <hr />,
-              <strong>Vaccine Type: </strong>, <span>{v_type} </span>, <br />,
-              <strong>Vaccine Amount needed: </strong>, <span>{v_required}</span>,
+              <hr key="hr"/>,
+              <strong key="strong1">Vaccine Type: </strong>, <span key="span1">{v_type} </span>, <br key="br"/>,
+              <strong key="strong2">Vaccine Amount needed: </strong>, <span key="span2">{v_required}</span>,
             ])}
             {testCount === '0' ? ([
-              <hr />,
-              <h6 className="text-center">You have yet to do your first test!</h6>
+              <hr key="hr"/>,
+              <h6 key="h6" className="text-center">You have yet to do your first test!</h6>
             ]) : ([
-              <hr />,
-              <strong>Condition: </strong>, <span>{condition}</span>, <br />,
-              <strong>Time: </strong>, <span>{testTime}</span>, <br />,
-              <strong>Test Count: </strong>, <span>{testCount}</span>
+              <hr key="hr"/>,
+              <strong key="strong1">Condition: </strong>, <span key="span1">{condition}</span>, <br key="br1"/>,
+              <strong key="strong2">Time: </strong>, <span key="span2">{testTime}</span>, <br key="br2"/>,
+              <strong key="strong3">Test Count: </strong>, <span key="span3">{testCount}</span>
             ])}
           </div>
           {tests.map((test, key) => {
@@ -135,7 +135,7 @@ export default class Home extends Component {
           })
           }
           <hr />
-          <h6 class="text-center">Total tests created by MedPass Blockchain: {totalTestCount}</h6>
+          <h6 className="text-center">Total tests created by MedPass Blockchain: {totalTestCount}</h6>
           <hr />
           <iframe title="Covid" src="https://ourworldindata.org/explorers/coronavirus-data-explorer?zoomToSelection=true&time=2021-05-01..latest&pickerSort=desc&pickerMetric=total_cases&hideControls=true&Metric=Confirmed+cases&Interval=7-day+rolling+average&Relative+to+Population=false&Align+outbreaks=false&country=~AUT" loading="lazy" style={{
             'width': '100%', 'height': '400px', 'border': '0px none'

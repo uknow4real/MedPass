@@ -49,33 +49,21 @@ export default class Settings extends Component {
                 <div className="App">
                     <div className="section">
                         <div className="setting-section border">
-                            <h2>Vaccine Statistic</h2>
-                            <div class="row">
-                                <div class="col-sm">
-                                    <span>Moderna: {m_amount}</span>
-                                </div>
-                                <div class="col-sm">
+                            <h2>Vaccine Inventory</h2>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <img src={moderna} alt="moderna" style={{ height: '30px' }} />
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row">
-                                <div class="col-sm">
-                                    <span>Pfizer: {p_amount}</span>
-                                </div>
-                                <div class="col-sm">
+                                    <span class="badge badge-success badge-pill">{m_amount}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <img src={pfizer} alt="pfizer" style={{ height: '30px' }} />
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row">
-                                <div class="col-sm">
-                                    <span>AstraZeneca: {az_amount}</span>
-                                </div>
-                                <div class="col-sm">
+                                    <span class="badge badge-success badge-pill">{p_amount}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <img src={astrazeneca} alt="astrazeneca" style={{ height: '30px' }} />
-                                </div>
-                            </div>
+                                    <span class="badge badge-success badge-pill">{az_amount}</span>
+                                </li>
+                            </ul>
                         </div>
                         <div className="setting-section border">
                             <h2>Admin Inventory</h2>
@@ -106,33 +94,21 @@ export default class Settings extends Component {
             <div className="App">
                 <div className="section">
                     <div className="setting-section border">
-                        <h2>Vaccine Statistic</h2>
-                        <div class="row">
-                            <div class="col-sm">
-                                <span>Moderna: {m_amount}</span>
-                            </div>
-                            <div class="col-sm">
+                        <h2>Vaccine Inventory</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <img src={moderna} alt="moderna" style={{ height: '30px' }} />
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-sm">
-                                <span>Pfizer: {p_amount}</span>
-                            </div>
-                            <div class="col-sm">
+                                <span class="badge badge-success badge-pill">{m_amount}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <img src={pfizer} alt="pfizer" style={{ height: '30px' }} />
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-sm">
-                                <span>AstraZeneca: {az_amount}</span>
-                            </div>
-                            <div class="col-sm">
+                                <span class="badge badge-success badge-pill">{p_amount}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <img src={astrazeneca} alt="astrazeneca" style={{ height: '30px' }} />
-                            </div>
-                        </div>
+                                <span class="badge badge-success badge-pill">{az_amount}</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -125,7 +125,7 @@ contract MedPass {
             v_amount[pfizer.vaccine] += pfizer.amount;
         }
         if (Hash == keccak256("AstraZeneca")) {
-            Vaccine memory astrazeneca = Vaccine(VaccineType.AstraZeneca, 0);
+            Vaccine memory astrazeneca = Vaccine(VaccineType.AstraZeneca, _amount);
             v_amount[astrazeneca.vaccine] += astrazeneca.amount;
         }
     }
@@ -145,7 +145,7 @@ contract MedPass {
             v_amount[pfizer.vaccine] -= pfizer.amount;
         }
         if (Hash == keccak256("AstraZeneca")) {
-            Vaccine memory astrazeneca = Vaccine(VaccineType.AstraZeneca, 0);
+            Vaccine memory astrazeneca = Vaccine(VaccineType.AstraZeneca, _amount);
             v_amount[astrazeneca.vaccine] -= astrazeneca.amount;
         }
     }
