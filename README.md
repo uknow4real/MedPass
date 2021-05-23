@@ -1,5 +1,5 @@
 # MedPass
-![MedPass](/app/src/logo.png)
+![MedPass](/app/src/img/logo.png)
 This is a decentralized blockchain application implementing smart contracts.
 
 ## Project By

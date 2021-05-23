@@ -50,18 +50,18 @@ export default class Settings extends Component {
                     <div className="section">
                         <div className="setting-section border">
                             <h2>Vaccine Inventory</h2>
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <ul className="list-group">
+                                <li className="list-group-item d-flex justify-content-between align-items-center">
                                     <img src={moderna} alt="moderna" style={{ height: '30px' }} />
-                                    <span class="badge badge-success badge-pill">{m_amount}</span>
+                                    <span className="badge badge-success badge-pill">{m_amount}</span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <li className="list-group-item d-flex justify-content-between align-items-center">
                                     <img src={pfizer} alt="pfizer" style={{ height: '30px' }} />
-                                    <span class="badge badge-success badge-pill">{p_amount}</span>
+                                    <span className="badge badge-success badge-pill">{p_amount}</span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <li className="list-group-item d-flex justify-content-between align-items-center">
                                     <img src={astrazeneca} alt="astrazeneca" style={{ height: '30px' }} />
-                                    <span class="badge badge-success badge-pill">{az_amount}</span>
+                                    <span className="badge badge-success badge-pill">{az_amount}</span>
                                 </li>
                             </ul>
                         </div>
@@ -95,18 +95,18 @@ export default class Settings extends Component {
                 <div className="section">
                     <div className="setting-section border">
                         <h2>Vaccine Inventory</h2>
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <ul className="list-group">
+                            <li className="list-group-item d-flex justify-content-between align-items-center">
                                 <img src={moderna} alt="moderna" style={{ height: '30px' }} />
-                                <span class="badge badge-success badge-pill">{m_amount}</span>
+                                <span className="badge badge-success badge-pill">{m_amount}</span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li className="list-group-item d-flex justify-content-between align-items-center">
                                 <img src={pfizer} alt="pfizer" style={{ height: '30px' }} />
-                                <span class="badge badge-success badge-pill">{p_amount}</span>
+                                <span className="badge badge-success badge-pill">{p_amount}</span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li className="list-group-item d-flex justify-content-between align-items-center">
                                 <img src={astrazeneca} alt="astrazeneca" style={{ height: '30px' }} />
-                                <span class="badge badge-success badge-pill">{az_amount}</span>
+                                <span className="badge badge-success badge-pill">{az_amount}</span>
                             </li>
                         </ul>
                     </div>

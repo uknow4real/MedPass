@@ -18,7 +18,7 @@ export default class Settings extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isAdmin: false,
+            isAdmin: null,
             stateDate: new Date().setHours(0, 0, 0)
         }
     }
@@ -32,7 +32,7 @@ export default class Settings extends Component {
         async function setPerson() {
             let fName = document.getElementById("fname").value;
             let lName = document.getElementById("lname").value;
-            let bday = new Date(stateDate).getTime() / 1000;
+            let bday = (new Date(stateDate).getTime() / 1000).toFixed();
             await drizzle.contracts.MedPass.methods.setPerson(fName, lName, bday).send()
             alert("Profile successfully updated!");
         }
