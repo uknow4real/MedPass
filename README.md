@@ -17,3 +17,7 @@ npm install react-router-dom
 npm install react-qr-code
 npm install react-datepicker
 ```
+optional (testnet deployment):
+```
+npm install @truffle/hdwallet-provider
+```

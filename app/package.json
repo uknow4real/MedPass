@@ -18,7 +18,8 @@
     "react-qr-code": "^1.1.1",
     "react-qr-scanner": "*",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.4"
+    "react-scripts": "^3.4.4",
+    "truffle-hdwallet-provider": "^1.0.17"
   },
   "scripts": {
     "start": "react-scripts start",
