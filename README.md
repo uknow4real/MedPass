@@ -1,5 +1,5 @@
 # MedPass
-![MedPass](/app/src/img/logo.png =200x)
+![MedPass](/app/src/img/logo.png)
 **MedPass** is a *decentralized blockchain application* implementing smart contracts. The goal is to simulate how a E-Healthcare Application *(green pass)* could look like on a blockchain environment.
 
 For building this application, we used: 
@@ -41,11 +41,11 @@ This is the 4th semester Project by Students from the [University of Applied Sci
 
 ## Screenshots
 - Homepage
-![](https://i.imgur.com/TNzaQUH.png =250x)
+<img src="https://i.imgur.com/TNzaQUH.png" width="400">
 - Vaccine Page
-![](https://i.imgur.com/SSsv1UW.png =250x)
+<img src="https://i.imgur.com/SSsv1UW.png" width="400">
 - Settings Page
-![](https://i.imgur.com/IuZPXc9.png =250x)
+<img src="https://i.imgur.com/IuZPXc9.png" width="400">
 
 ## Installation & Setup
 ### Dependencies
