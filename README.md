@@ -2,6 +2,8 @@
 ![MedPass](/app/src/img/logo.png)
 This is a decentralized blockchain application implementing smart contracts.
 
+![](https://i.imgur.com/TNzaQUH.png)
+
 ## Project By
 Sebastian Chmel & Leo Bowen Wang
 
