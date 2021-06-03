@@ -42,8 +42,10 @@ This is the 4th semester Project by Students from the [University of Applied Sci
 ## Screenshots
 - Homepage
 <img src="https://i.imgur.com/TNzaQUH.png" width="400">
+
 - Vaccine Page
 <img src="https://i.imgur.com/SSsv1UW.png" width="400">
+
 - Settings Page
 <img src="https://i.imgur.com/IuZPXc9.png" width="400">
 
