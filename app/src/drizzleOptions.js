@@ -1,6 +1,5 @@
 import MedPass from "./contracts/MedPass.json";
-import Web3 from "web3";
-
+//import Web3 from "web3";
 
 const options = {
   web3: {
