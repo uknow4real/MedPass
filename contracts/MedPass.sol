@@ -4,8 +4,6 @@ pragma solidity >=0.4.21 <=0.8.4;
 contract MedPass {
     address owner;
 
-    string fullName;
-
     enum Condition {Negative, Positive}
     enum VaccineType {None, Moderna, Pfizer, AstraZeneca}
 
@@ -45,7 +43,7 @@ contract MedPass {
     mapping(address => bool) public adminmapping;
     mapping(uint256 => Test) public personTests;
     mapping(VaccineType => uint256) public v_amount;
-
+    
     mapping(address => uint32) private addToID;
     mapping(uint32 => address) private idToAdd;
 
@@ -64,12 +62,12 @@ contract MedPass {
         owner = msg.sender;
 
         // NAME
-        // concantate First & Last Name into one string
+        // concatenate First & Last Name into one string
         bytes memory s;
         s = abi.encodePacked(_fname);
         s = abi.encodePacked(s, " ");
         s = abi.encodePacked(s, _lname);
-        fullName = string(s);
+        string memory fullName = string(s);
         // set name of person and map it to account address
         identity[owner].name = fullName;
         // ID

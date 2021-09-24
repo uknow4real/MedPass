@@ -3,7 +3,7 @@ import moderna from "./img/moderna.png";
 import pfizer from "./img/pfizer.png";
 import astrazeneca from "./img/astrazeneca.png";
 
-export default class Settings extends Component {
+export default class Vaccine extends Component {
     componentDidMount() {
         const drizzle = this.props.drizzle
         const drizzleState = this.props.drizzleState
@@ -36,13 +36,13 @@ export default class Settings extends Component {
             let vaccine = document.getElementById("vaccine").value;
             let amount = document.getElementById("amount_a").value;
             await drizzle.contracts.MedPass.methods.addV_amount(vaccine, amount).send()
-            alert(amount+" vaccine amount added!")
+            alert(amount + " vaccine amount added!")
         }
         async function subV_amount() {
             let vaccine = document.getElementById("vaccine").value;
             let amount = document.getElementById("amount_s").value;
             await drizzle.contracts.MedPass.methods.subV_amount(vaccine, amount).send()
-            alert(amount+" amount removed!")
+            alert(amount + " amount removed!")
         }
         if (isAdmin === true) {
             return (
