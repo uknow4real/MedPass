@@ -1,6 +1,6 @@
 const path = require("path");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const { projectId, mnemonic } = require('./secrets.json');
+//const { projectId, mnemonic } = require('./secrets.json');
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -25,7 +25,7 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: "0.8.3",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.7",    // Fetch exact version from solc-bin (default: truffle's version)
     }
   }
 };
