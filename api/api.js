@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
-const PORT = 8080;
+const PORT = 5000;
+const IP = '192.168.1.6';
 
 app.use(express.json());
 
-app.listen(PORT, () => console.log("its alive!"));
+app.listen(PORT, IP, () => console.log("its alive!"));
 
 app.get("/sensor", (req, res) => {
   res.status(200).send({
@@ -20,6 +21,6 @@ app.post("/sensor/data", (req, res) => {
 
   res.status(200).send({
     msg: key,
-    msg2: kkey,
+    msg2: kkey
   });
 });
