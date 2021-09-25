@@ -9,18 +9,20 @@ app.listen(PORT, IP, () => console.log("its alive!"));
 
 app.get("/sensor", (req, res) => {
   res.status(200).send({
-    msg: "bruh",
+    msg: "this is a get request",
   });
 });
 
 app.post("/sensor/data", (req, res) => {
-  const { key, kkey } = req.body;
+  const { key, temp, hum } = req.body;
+  
   if (!key) {
-    res.status(400).send({ msg: "no bro" });
+    res.status(404).send({ msg: "device id missing" });
   }
 
   res.status(200).send({
-    msg: key,
-    msg2: kkey
+    key: key,
+    temp: temp,
+    hum: hum
   });
 });
