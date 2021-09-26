@@ -7,13 +7,13 @@ app.use(express.json());
 
 app.listen(PORT, IP, () => console.log("its alive!"));
 
-app.get("/sensor", (req, res) => {
+app.get("/api/sensor", (req, res) => {
   res.status(200).send({
     msg: "this is a get request",
   });
 });
 
-app.post("/sensor/data", (req, res) => {
+app.post("/api/sensor/data", (req, res) => {
   const { key, temp, hum, status } = req.body;
 
   if (!key) {
