@@ -4,6 +4,9 @@ const { ip, port } = require('./address.json');
 const IP = ip;
 const PORT = port;
 
+var Web3 = require('web3');
+var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+
 app.use(express.json());
 
 app.listen(PORT, IP, () => console.log("its alive!"));

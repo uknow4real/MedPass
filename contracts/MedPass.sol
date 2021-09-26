@@ -48,8 +48,7 @@ contract MedPass {
     mapping(uint32 => address) private idToAdd;
 
     // default person
-    Person p =
-        Person(false, 1, "Your Name", 1621607249, VaccineType.None, 0, 2);
+    Person p = Person(false, 1, "Your Name", 1621607249, VaccineType.None, 0, 2);
     // default test
     Test t = Test(0, msg.sender, 1, Condition.Negative, block.timestamp);
 
