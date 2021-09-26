@@ -9,7 +9,7 @@ export default class Sensors extends Component {
             <div className="App">
                 <div className="section">
                     <div className="setting-section border">
-                        <h2>Vaccine Inventory</h2>
+                        <h2>Sensors</h2>
                         <ul className="list-group">
                             <li className="list-group-item d-flex justify-content-between align-items-center">
                                 <img src={moderna} alt="moderna" style={{ height: '30px' }} />
