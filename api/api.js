@@ -30,7 +30,7 @@ app.post("/sensor/data", (req, res) => {
     res.status(200).send({
       key: key,
       temp: temp,
-      hum: hum,
+      hum: hum
     });
   }
 });
