@@ -75,6 +75,21 @@ To launch the react application we need to do ` npm run start`.
 cd app
 npm run start
 ```
+### Deployment on Ropsten Testnet
+Install Ethereum CLI & generate account:
+```
+npm i -g eth-cli
+eth address:random
+```
+Create a JSON file, which is secret and add the generated account information, something like this:
+```
+{
+    "projectId": "https://ropsten.infura.io/v3/YOUR_API",
+    "address": "...",
+    "privateKey": "..."
+}
+```
+Also add the projectId from your Infura Project with the Ropsten Endpoint
 ### Metamask
 For detailed documentation for Metamask Account setup in Truffle local blockchain, please visit:  
 https://www.trufflesuite.com/docs/truffle/getting-started/truffle-with-metamask

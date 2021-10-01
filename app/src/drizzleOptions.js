@@ -1,12 +1,20 @@
-import MedPass from "./contracts/MedPass.json";
-//import Web3 from "web3";
+const Web3 = require('web3');
+const { contractName, abi } = require('./contracts/MedPass.json');
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const { projectId, privateKey, contractAddress } = require('./secrets.json');
+
+const provider = new HDWalletProvider(privateKey, `https://ropsten.infura.io/v3/${projectId}`);
+const web3 = new Web3(provider);
 
 const options = {
   web3: {
     block: false,
-    //gicustomProvider: new Web3("ws://localhost:8545"),
+    provider: web3
   },
-  contracts: [MedPass]
+  contracts: [{
+    contractName: contractName,
+    web3Contract: new web3.eth.Contract(abi, contractAddress)
+  }]
 };
 
 export default options;
