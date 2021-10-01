@@ -10,6 +10,7 @@
     "http-parser-js": "^0.5.3",
     "icss-replace-symbols": "^1.1.0",
     "jquery": "^3.6.0",
+    "npm": "^7.24.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-datepicker": "^3.8.0",

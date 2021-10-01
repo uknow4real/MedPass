@@ -6,6 +6,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./Home";
 import Vaccine from "./Vaccine";
+import Sensors from "./Sensors";
 import Settings from "./Settings";
 import Navigation from './Navigation';
 
@@ -29,6 +30,7 @@ export default () => {
                   return <Home drizzle={drizzle} drizzleState={drizzleState} />
                 }} />
                 <Route exact path="/vaccine" component={() => <Vaccine drizzle={drizzle} drizzleState={drizzleState} />}/>
+                <Route exact path="/sensors" component={() => <Sensors drizzle={drizzle} drizzleState={drizzleState} />} />
                 <Route exact path="/settings" component={() => <Settings drizzle={drizzle} drizzleState={drizzleState} />} />
               </Switch>
             </Router>
