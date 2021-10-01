@@ -9,7 +9,7 @@ module.exports = {
   networks: {
     kovan: {
       provider: () => new HDWalletProvider(privateKey, `https://kovan.infura.io/v3/${projectId}`),
-      network_id: 3,
+      network_id: 42,
       gas: 4000000,
       gasPrice: 10000000000,
     },

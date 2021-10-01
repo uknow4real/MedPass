@@ -3,7 +3,7 @@ const { contractName, abi } = require('./contracts/MedPass.json');
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const { projectId, privateKey, contractAddress } = require('./secrets.json');
 
-const provider = new HDWalletProvider(privateKey, `https://ropsten.infura.io/v3/${projectId}`);
+const provider = new HDWalletProvider(privateKey, `https://kovan.infura.io/v3/${projectId}`);
 const web3 = new Web3(provider);
 
 const options = {

@@ -90,6 +90,10 @@ Create a secrets.json in the project directory and add the generated account inf
     "privateKey": "..."
 }
 ```
+Deploy your contracts by using:
+```
+truffle deploy --network kovan
+```
 Duplicate the secrets.json and add it to /app/src. Also define a "contractAddress" parameter with the deployed contract address.
 ### Metamask
 For detailed documentation for Metamask Account setup in Truffle local blockchain, please visit:  
