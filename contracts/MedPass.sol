@@ -1,11 +1,19 @@
 // SPDX-License-Identifier: MIT
-pragma solidity = 0.8.7;
+pragma solidity =0.8.7;
 
 contract MedPass {
     address owner;
 
-    enum Condition {Negative, Positive}
-    enum VaccineType {None, Moderna, Pfizer, AstraZeneca}
+    enum Condition {
+        Negative,
+        Positive
+    }
+    enum VaccineType {
+        None,
+        Moderna,
+        Pfizer,
+        AstraZeneca
+    }
 
     struct Vaccine {
         VaccineType vaccine;
@@ -43,12 +51,13 @@ contract MedPass {
     mapping(address => bool) public adminmapping;
     mapping(uint256 => Test) public personTests;
     mapping(VaccineType => uint256) public v_amount;
-    
+
     mapping(address => uint32) private addToID;
     mapping(uint32 => address) private idToAdd;
 
     // default person
-    Person p = Person(false, 1, "Your Name", 1621607249, VaccineType.None, 0, 2);
+    Person p =
+        Person(false, 1, "Your Name", 1621607249, VaccineType.None, 0, 2);
     // default test
     Test t = Test(0, msg.sender, 1, Condition.Negative, block.timestamp);
 
@@ -122,7 +131,10 @@ contract MedPass {
             v_amount[pfizer.vaccine] += pfizer.amount;
         }
         if (Hash == keccak256("AstraZeneca")) {
-            Vaccine memory astrazeneca = Vaccine(VaccineType.AstraZeneca, _amount);
+            Vaccine memory astrazeneca = Vaccine(
+                VaccineType.AstraZeneca,
+                _amount
+            );
             v_amount[astrazeneca.vaccine] += astrazeneca.amount;
         }
     }
@@ -142,7 +154,10 @@ contract MedPass {
             v_amount[pfizer.vaccine] -= pfizer.amount;
         }
         if (Hash == keccak256("AstraZeneca")) {
-            Vaccine memory astrazeneca = Vaccine(VaccineType.AstraZeneca, _amount);
+            Vaccine memory astrazeneca = Vaccine(
+                VaccineType.AstraZeneca,
+                _amount
+            );
             v_amount[astrazeneca.vaccine] -= astrazeneca.amount;
         }
     }
@@ -152,12 +167,9 @@ contract MedPass {
         bytes memory condi = bytes(_condition);
         bytes32 Hash = keccak256(condi);
 
-        uint32 id =
-            uint32(
-                uint256(
-                    keccak256(abi.encodePacked(idToAdd[_id], block.timestamp))
-                )
-            );
+        uint32 id = uint32(
+            uint256(keccak256(abi.encodePacked(idToAdd[_id], block.timestamp)))
+        );
 
         totalTestCount++;
         identity[idToAdd[_id]].testCount += 1;
@@ -172,14 +184,13 @@ contract MedPass {
             t.condition = Condition.Positive;
         }
         personTests[testCount].condition = t.condition;
-        Test memory test =
-            Test(
-                id,
-                msg.sender,
-                _id,
-                personTests[testCount].condition,
-                block.timestamp
-            );
+        Test memory test = Test(
+            id,
+            msg.sender,
+            _id,
+            personTests[testCount].condition,
+            block.timestamp
+        );
 
         personTests[testCount] = test;
     }
