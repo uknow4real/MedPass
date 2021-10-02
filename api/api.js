@@ -1,11 +1,13 @@
 const express = require("express");
+const Web3 = require('web3');
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 const app = express();
-const { ip, port } = require('./address.json');
-const IP = ip;
-const PORT = port;
+const { IP, PORT } = require('./address.json');
+const { projectId, address, privateKey, contractAddress } = require('./secrets.json');
+const { abi } = require('./MedPass.json');
 
-var Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+const provider = new HDWalletProvider(privateKey, `https://kovan.infura.io/v3/${projectId}`);
+const web3 = new Web3(provider);
 
 app.use(express.json());
 
@@ -36,5 +38,23 @@ app.post("/api/sensor/data", (req, res) => {
       temp: temp,
       hum: hum
     });
-  }
+  /*try {
+    contract(key, temp);
+  } catch(error) {
+    console.log(error);
+  }*/
+}
+
+async function contract(key, temp) {
+  let contract = new web3.eth.Contract(abi, contractAddress, {
+    from: address
+  })  
+  await contract.methods
+    .setPerson(key, temp, 5185002)
+    .send({from: address});
+  const result = await contract.methods
+    .getName(address)
+    .call()
+  console.log(result);
+}
 });
