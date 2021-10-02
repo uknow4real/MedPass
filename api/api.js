@@ -3,15 +3,15 @@ const Web3 = require('web3');
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const app = express();
 const { IP, PORT } = require('./address.json');
-const { projectId, address, privateKey, contractAddress } = require('././secrets.json');
-const { abi } = require('./MedPass.json');
+const { projectId, address, privateKey, contractAddress } = require('../secrets.json');
+const { abi } = require('../app/src/contracts/MedPass.json');
 
 const provider = new HDWalletProvider(privateKey, `https://kovan.infura.io/v3/${projectId}`);
 const web3 = new Web3(provider);
 
 app.use(express.json());
 
-app.listen(PORT, IP, () => console.log(projectId));
+app.listen(PORT, IP, () => console.log("API running..."));
 
 app.get("/api/sensor", (req, res) => {
   res.status(200).send({
