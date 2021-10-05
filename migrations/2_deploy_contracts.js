@@ -1,7 +1,7 @@
 const MedPass = artifacts.require("MedPass");
-//const Sensor = artifacts.require("Sensor");
+const Sensors = artifacts.require("Sensors");
 
 module.exports = function (deployer) {
   deployer.deploy(MedPass);
-  //deployer.deploy(Sensor);
+  deployer.deploy(Sensors);
 };

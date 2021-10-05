@@ -23,7 +23,7 @@ app.listen(PORT, IP, () => console.log("API running on " + IP + ":" + PORT));
 
 app.get("/api/sensor", (req, res) => {
   res.status(200).send({
-    msg: "this is a get request",
+    msg: 12345
   });
 });
 
@@ -53,7 +53,7 @@ app.post("/api/sensor/data", (req, res) => {
   }*/
   }
 
-  async function contract(key, temp) {
+  async function postContract(key, temp) {
     let contract = new web3.eth.Contract(abi, contractAddress, {
       from: address,
     });
