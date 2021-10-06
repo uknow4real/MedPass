@@ -23,7 +23,7 @@ contract Sensors is ChainlinkClient {
      // 0xAA1DC356dc4B18f30C347798FD5379F3D77ABC5b
      // 5a9a763ee1e44e729c30ec1d8252de05
     constructor() {
-        setChainlinkToken(0x0Bc436b67fe58B5006007700147EfEF4f5637791);
+        setChainlinkToken(0xa36085F69e2889c224210F603D836748e7dC0088);
         oracle = 0xc57B33452b4F7BB189bB5AfaE9cc4aBa1f7a4FD8;
         jobId = "d5270d1c311941d0b08bead21fea7747";
         fee = 0.1 * 10 ** 18; // (Varies by network and job)
@@ -68,6 +68,9 @@ contract Sensors is ChainlinkClient {
         volume = _volume;
     }
 
+    function getVolume() public view returns (uint256) {
+        return volume;
+    }
+
     // function withdrawLink() external {} - Implement a withdraw function to avoid locking your LINK in the contract
 }
-

@@ -7,22 +7,23 @@ export default class Sensors extends Component {
     this.loadData(drizzle, drizzleState);
   }
   async loadData(drizzle, drizzleState) {
-    const result = await drizzle.contracts.Sensors.methods
-      .requestVolumeData()
-      .call();
+    const result = await drizzle.contracts.Sensors.methods.getVolume().call()
     this.setState({
-      result: result,
-    });
+      volume: result
+    })
+  }
+  constructor(props) {
+    super(props)
+    this.state = {
+      volume: null
+    }
   }
   render() {
-    const drizzle = this.props.drizzle;
-    const drizzleState = this.props.drizzleState;
+    const drizzle = this.props.drizzle
+    const { volume } = this.state;
     async function requestVolumeData() {
-      var result = await drizzle.contracts.Sensors.methods
-        .requestVolumeData()
-        .send();
-      console.log(result);
-      alert(result);
+      await drizzle.contracts.Sensors.methods.requestVolumeData().send();
+      alert("Requested data");
     }
     return (
       <div className="App">
@@ -39,6 +40,7 @@ export default class Sensors extends Component {
               </button>
             </div>
           </div>
+          <span>{volume} €</span>
         </div>
       </div>
     );
