@@ -29,9 +29,15 @@ export default () => {
                 <Route exact path="/" render={() => {
                   return <Home drizzle={drizzle} drizzleState={drizzleState} />
                 }} />
-                <Route exact path="/vaccine" component={() => <Vaccine drizzle={drizzle} drizzleState={drizzleState} />}/>
-                <Route exact path="/sensors" component={() => <Sensors drizzle={drizzle} drizzleState={drizzleState} />} />
-                <Route exact path="/settings" component={() => <Settings drizzle={drizzle} drizzleState={drizzleState} />} />
+                <Route exact path="/vaccine" render={() => {
+                  return <Vaccine drizzle={drizzle} drizzleState={drizzleState} />
+                }}/>
+                <Route exact path="/sensors" render={() => {
+                  return <Sensors drizzle={drizzle} drizzleState={drizzleState} />
+                }}/>
+                <Route exact path="/settings" render={() => {
+                  return <Settings drizzle={drizzle} drizzleState={drizzleState} />
+                }}/>
               </Switch>
             </Router>
 
