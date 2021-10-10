@@ -7,22 +7,22 @@ export default class Sensors extends Component {
     this.loadData(drizzle, drizzleState);
   }
   async loadData(drizzle, drizzleState) {
-    const result = await drizzle.contracts.Sensors.methods.getVolume().call()
+    const result = await drizzle.contracts.Sensors.methods.getTemp().call()
     this.setState({
-      volume: result
+      temp: result
     })
   }
   constructor(props) {
     super(props)
     this.state = {
-      volume: null
+      temp: null
     }
   }
   render() {
     const drizzle = this.props.drizzle
-    const { volume } = this.state;
-    async function requestVolumeData() {
-      await drizzle.contracts.Sensors.methods.requestVolumeData().send();
+    const { temp } = this.state;
+    async function requestData() {
+      await drizzle.contracts.Sensors.methods.requestData().send();
       alert("Requested data");
     }
     return (
@@ -34,13 +34,13 @@ export default class Sensors extends Component {
               <button
                 type="button"
                 className="btn btn-success"
-                onClick={requestVolumeData}
+                onClick={requestData}
               >
                 Submit
               </button>
             </div>
           </div>
-          <span>{volume} €</span>
+          <span>{temp} °C</span>
         </div>
       </div>
     );

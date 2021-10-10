@@ -20,10 +20,9 @@ import urequests #send request
 import ujson #to send json
 import ubinascii #to convert device id
 
-ssid = 'Sweethome'
-password = '990504990504'
-ip = '192.168.1.6'
-port = 5000
+ssid = ''
+password = ''
+api = ''
 
 station = network.WLAN(network.STA_IF)
 station.active(True)
@@ -34,3 +33,6 @@ while station.isconnected() == False:
 
 print('Connection successful')
 print(station.ifconfig())
+
+import ntptime
+ntptime.settime()

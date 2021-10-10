@@ -6,7 +6,7 @@ import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 contract Sensors is ChainlinkClient {
     using Chainlink for Chainlink.Request;
   
-    uint256 public volume;
+    uint256 private temp;
     
     address private oracle;
     bytes32 private jobId;
@@ -33,12 +33,12 @@ contract Sensors is ChainlinkClient {
      * Create a Chainlink request to retrieve API response, find the target
      * data, then multiply by 1000000000000000000 (to remove decimal places from data).
      */
-    function requestVolumeData() public returns (bytes32 requestId) 
+    function requestData() public returns (bytes32 requestId) 
     {
         Chainlink.Request memory request = buildChainlinkRequest(jobId, address(this), this.fulfill.selector);
         
         // Set the URL to perform the GET request on
-        request.add("get", "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD");
+        request.add("get", "http://api-env.eba-jzmbf5ps.us-east-2.elasticbeanstalk.com/sensor/all");
         
         // Set the path to find the desired data in the API response, where the response format is:
         // {"RAW":
@@ -50,12 +50,8 @@ contract Sensors is ChainlinkClient {
         //    }
         //   }
         //  }
-        request.add("path", "RAW.ETH.USD.VOLUME24HOUR");
-        
-        // Multiply the result by 1000000000000000000 to remove decimals
-        int timesAmount = 10**18;
-        request.addInt("times", timesAmount);
-        
+        //request.add("path", "sensors.temp");
+                
         // Sends the request
         return sendChainlinkRequestTo(oracle, request, fee);
     }
@@ -63,13 +59,13 @@ contract Sensors is ChainlinkClient {
     /**
      * Receive the response in the form of uint256
      */ 
-    function fulfill(bytes32 _requestId, uint256 _volume) public recordChainlinkFulfillment(_requestId)
+    function fulfill(bytes32 _requestId, uint256 _temp) public recordChainlinkFulfillment(_requestId)
     {
-        volume = _volume;
+        temp = _temp;
     }
 
-    function getVolume() public view returns (uint256) {
-        return volume;
+    function getTemp() public view returns (uint256) {
+        return temp;
     }
 
     // function withdrawLink() external {} - Implement a withdraw function to avoid locking your LINK in the contract
