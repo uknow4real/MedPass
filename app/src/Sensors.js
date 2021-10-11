@@ -36,7 +36,7 @@ export default class Sensors extends Component {
                 className="btn btn-success"
                 onClick={requestData}
               >
-                Submit
+                Get Temp
               </button>
             </div>
           </div>

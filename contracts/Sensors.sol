@@ -36,26 +36,13 @@ contract Sensors is ChainlinkClient {
     function requestData() public returns (bytes32 requestId) 
     {
         Chainlink.Request memory request = buildChainlinkRequest(jobId, address(this), this.fulfill.selector);
-        
         // Set the URL to perform the GET request on
         request.add("get", "http://api-env.eba-jzmbf5ps.us-east-2.elasticbeanstalk.com/sensor/all");
-        
         // Set the path to find the desired data in the API response, where the response format is:
-        // {"RAW":
-        //   {"ETH":
-        //    {"USD":
-        //     {
-        //      "VOLUME24HOUR": xxx.xxx,
-        //     }
-        //    }
-        //   }
-        //  }
-        //request.add("path", "sensors.temp");
-                
+        request.add("path", "sensors.0.temp");
         // Sends the request
         return sendChainlinkRequestTo(oracle, request, fee);
-    }
-    
+    } 
     /**
      * Receive the response in the form of uint256
      */ 
