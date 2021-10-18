@@ -8,7 +8,9 @@ def read_dht():
     dht_pin.measure()
     temp = dht_pin.temperature()
     hum = dht_pin.humidity()
-    timestamp = machine.RTC().datetime()
+    datetime = machine.RTC().datetime()
+    timestamp = "{}-{}-{} {}:{}:{}".format(datetime[0],datetime[1],datetime[2],
+                                     datetime[4]+2,datetime[5],datetime[6])
     if (isinstance(temp, float) and isinstance(hum, float)) or (isinstance(temp, int) and isinstance(hum, int)):
       send_request(timestamp, temp, hum)
     else:

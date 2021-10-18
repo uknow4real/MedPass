@@ -24,6 +24,7 @@ export default class Sensors extends Component {
     async function requestData() {
       await drizzle.contracts.Sensors.methods.requestData().send();
       alert("Requested data");
+      window.location.reload();
     }
     return (
       <div className="App">
