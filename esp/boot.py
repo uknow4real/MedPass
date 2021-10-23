@@ -20,9 +20,9 @@ import urequests #send request
 import ujson #to send json
 import ubinascii #to convert device id
 
-ssid = 'Sweethome'
-password = '990504990504'
-ip = '192.168.1.6'
+ssid = ''
+password = ''
+ip = ''
 port = 5000
 
 station = network.WLAN(network.STA_IF)
