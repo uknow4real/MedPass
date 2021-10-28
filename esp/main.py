@@ -9,8 +9,7 @@ def read_dht():
     temp = dht_pin.temperature()
     hum = dht_pin.humidity()
     datetime = machine.RTC().datetime()
-    timestamp = "{}-{}-{} {}:{}:{}".format(datetime[0],datetime[1],datetime[2],
-                                     datetime[4]+2,datetime[5],datetime[6])
+    timestamp = 946684800 + utime.time() # Unix Epoch
     token = getAuth()
     if (isinstance(temp, float) and isinstance(hum, float)) or (isinstance(temp, int) and isinstance(hum, int)):
       send_request(timestamp, temp, hum, token['accessToken'])
@@ -29,9 +28,9 @@ def send_error(status):
     data = ujson.dumps({ "id": key, "status": status })
     response = urequests.post(url, headers=headers, data=data)
     print(response.json())
-
+    
 def getAuth():
-    data = ujson.dumps({ "id": key, "pwd": "" })
+    data = ujson.dumps({ "id": key, "pwd": pwd })
     response = urequests.post(authurl, headers=headers, data=data)
     return response.json()
     

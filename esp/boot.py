@@ -15,10 +15,11 @@ import urequests #send request
 import ujson #to send json
 import ubinascii #to convert device id
 
-ssid = ''
-password = ''
-api = ''
-authurl = ''
+ssid = '' #str
+password = '' #str
+api = '' #str
+authurl = '' #str
+pwd = '' #int
 
 station = network.WLAN(network.STA_IF)
 station.active(True)
