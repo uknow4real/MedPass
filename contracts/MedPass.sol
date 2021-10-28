@@ -287,4 +287,37 @@ contract MedPass {
         bool isregistered = identity[_owner].registered;
         return isregistered;
     }
+
+    // --------------- SENSOR ------------------
+    struct Sensor {
+        string id;
+        uint32 temp;
+        uint32 hum;
+        int256 time;
+    }
+
+    mapping(string => Sensor) public sensors;
+
+    function writeData(string memory _id, uint32 _temp, uint32 _hum, int256 _time) public onlyAdmin {
+        sensors[_id].id = _id;
+        sensors[_id].temp = _temp;
+        sensors[_id].hum = _hum;
+        sensors[_id].time = _time;
+    }
+
+    /*function getID(string memory _id) public view onlyAdmin returns (string memory) {
+        return sensors[_id].id;
+    }
+
+    function getTemp(string memory _id) public view onlyAdmin returns (uint32) {
+        return sensors[_id].temp;
+    }
+
+    function getHum(string memory _id) public view onlyAdmin returns (uint32) {
+        return sensors[_id].hum;
+    }
+
+    function getTime(string memory _id) public view onlyAdmin returns (int256) {
+        return sensors[_id].time;
+    }*/
 }

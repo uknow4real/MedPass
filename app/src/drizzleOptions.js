@@ -1,6 +1,6 @@
 const Web3 = require("web3");
-const MedPass = require("./contracts/MedPass.json");
-const Sensors = require("./contracts/Sensors.json");
+const MedPassArtifact = require("./contracts/MedPass.json");
+const SensorsArtifact = require("./contracts/Sensors.json");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const {
   projectId,
@@ -15,6 +15,8 @@ const provider = new HDWalletProvider(
   `https://kovan.infura.io/v3/${projectId}`
 );
 const web3 = new Web3(provider);
+let MedPass = new web3.eth.Contract(MedPassArtifact.abi, medpassAddress, {from: address});
+let Sensors = new web3.eth.Contract(SensorsArtifact.abi, sensorsAddress, {from: address});
 
 const options = {
   web3: {
@@ -23,16 +25,12 @@ const options = {
   },
   contracts: [
     {
-      contractName: MedPass.contractName,
-      web3Contract: new web3.eth.Contract(MedPass.abi, medpassAddress, {
-        from: address,
-      }),
+      contractName: MedPassArtifact.contractName,
+      web3Contract: MedPass
     },
     {
-      contractName: Sensors.contractName,
-      web3Contract: new web3.eth.Contract(Sensors.abi, sensorsAddress, {
-        from: address,
-      }),
+      contractName: SensorsArtifact.contractName,
+      web3Contract: Sensors
     },
   ],
 };
