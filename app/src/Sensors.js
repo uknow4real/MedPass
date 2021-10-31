@@ -10,13 +10,12 @@ export default class Sensors extends Component {
   async loadData(drizzle, drizzleState) {
     /*for (let i = 0; i < 2; i++) {*/
     let sensor = await drizzle.contracts.MedPass.methods
-      .sensors("807d3ab768c8")
+      .sensors(web3.utils.toHex("807d3ab768c8"))
       .call();
+    console.log(sensor)
     this.setState({
       sensors: [...this.state.sensors, sensor],
     });
-    //}
-    //web3.utils.toAscii(result)
   }
   constructor(props) {
     super(props);
@@ -35,20 +34,21 @@ export default class Sensors extends Component {
       await drizzle.contracts.Sensors.methods.requestData(input.toString(), 2).send();
       await drizzle.contracts.Sensors.methods.requestData(input.toString(), 3).send();
 
-      const id = await drizzle.contracts.Sensors.methods.getData(0).call();
-      console.log(web3.utils.toAscii(id));
-      const temp = await drizzle.contracts.Sensors.methods.getData(1).call();
-      console.log(web3.utils.toAscii(temp));     
-      const hum = await drizzle.contracts.Sensors.methods.getData(2).call();
-      console.log(web3.utils.toAscii(hum));
-      const time = await drizzle.contracts.Sensors.methods.getData(3).call();
-      console.log(web3.utils.toAscii(time));
-      //await drizzle.contracts.MedPass.methods.writeData(web3.utils.toAscii(ID), parseInt(web3.utils.toAscii(temp)), parseInt(web3.utils.toAscii(hum)), parseInt(web3.utils.toAscii(time))).send()
-      //console.log("Requested Data!");
+      var id = await drizzle.contracts.Sensors.methods.getData(0).call();
+      console.log(id);
+      var temp = await drizzle.contracts.Sensors.methods.getData(1).call();
+      console.log(temp);     
+      var hum = await drizzle.contracts.Sensors.methods.getData(2).call();
+      console.log(hum);
+      var timestamp = await drizzle.contracts.Sensors.methods.getData(3).call();
+      console.log(timestamp);
+    
+      await drizzle.contracts.MedPass.methods.writeData(id, temp, hum, timestamp).send()
+      alert("Requested data");
     }
     /*for(let i = 0; i < 2; i++) {
       requestData()
-      alert("Requested data");
+      
       window.location.reload();
     }*/
     return (
