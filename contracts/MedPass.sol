@@ -291,18 +291,18 @@ contract MedPass {
     // --------------- SENSOR ------------------
     struct Sensor {
         bytes32 id;
-        uint256 temp;
-        uint256 hum;
-        uint256 time;
+        bytes32 temp;
+        bytes32 hum;
+        bytes32 time;
     }
 
     mapping(bytes32 => Sensor) public sensors;
 
     function writeData(bytes32 _id, bytes32 _temp, bytes32 _hum, bytes32 _time) public onlyAdmin {
         sensors[_id].id = _id;
-        sensors[_id].temp = uint(_temp);
-        sensors[_id].hum = uint(_hum);
-        sensors[_id].time = uint(_time);
+        sensors[_id].temp = _temp;
+        sensors[_id].hum = _hum;
+        sensors[_id].time = _time;
     }
 
     /*function getID(string memory _id) public view onlyAdmin returns (string memory) {

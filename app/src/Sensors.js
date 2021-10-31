@@ -12,7 +12,6 @@ export default class Sensors extends Component {
     let sensor = await drizzle.contracts.MedPass.methods
       .sensors(web3.utils.toHex("807d3ab768c8"))
       .call();
-    console.log(sensor)
     this.setState({
       sensors: [...this.state.sensors, sensor],
     });
@@ -60,16 +59,16 @@ export default class Sensors extends Component {
               return (
                 <div className="card text-center mb-3" key={key}>
                   <div className="card-header">
-                    <h6>Sensor ID: {sensor.id} </h6>
+                    <h6>Sensor ID: {web3.utils.toAscii(sensor.id)} </h6>
                   </div>
                   <span className="test-field">
-                    <b>Time:</b> {sensor.time}
+                    <b>Time:</b> {new Date(parseInt(web3.utils.toAscii(sensor.time)) * 1000).toLocaleTimeString()+" "+new Date(parseInt(web3.utils.toAscii(sensor.time)) * 1000).toLocaleDateString()}
                   </span>
                   <span className="test-field">
-                    <b>Temperature:</b> {sensor.temp}
+                    <b>Temperature:</b> {web3.utils.toAscii(sensor.temp)}°C
                   </span>
                   <span className="test-field">
-                    <b>Humidity:</b> {sensor.hum}
+                    <b>Humidity:</b> {web3.utils.toAscii(sensor.hum)}%
                   </span>
                 </div>
               );
