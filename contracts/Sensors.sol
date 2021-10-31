@@ -6,8 +6,11 @@ import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 contract Sensors is ChainlinkClient {
     using Chainlink for Chainlink.Request;
   
-    bytes32 private data;
-  
+    bytes32 private id;
+    bytes32 private temp;
+    bytes32 private hum;
+    bytes32 private timestamp;
+
     address private oracle;
     bytes32 private jobId;
     uint256 private fee;
@@ -38,20 +41,25 @@ contract Sensors is ChainlinkClient {
         bytes memory s;
         s = abi.encodePacked("sensors.");
         s = abi.encodePacked(s, _id);
+        Chainlink.Request memory request;
         if (_jobtype == 0) {
             s = abi.encodePacked(s, ".id");
+            request = buildChainlinkRequest(jobId, address(this), this.fulfillId.selector);
         }
         if (_jobtype == 1) {
             s = abi.encodePacked(s, ".temp");
+            request = buildChainlinkRequest(jobId, address(this), this.fulfillTemp.selector);
         }
         if (_jobtype == 2) {
             s = abi.encodePacked(s, ".hum");
+            request = buildChainlinkRequest(jobId, address(this), this.fulfillHum.selector);
         }
         if (_jobtype == 3) {
             s = abi.encodePacked(s, ".time");
+            request = buildChainlinkRequest(jobId, address(this), this.fulfillTimestamp.selector);
         }
         string memory call = string(s);
-        Chainlink.Request memory request = buildChainlinkRequest(jobId, address(this), this.fulfill.selector);
+        
         // Set the URL to perform the GET request on
         request.add("get", "http://api-env.eba-jzmbf5ps.us-east-2.elasticbeanstalk.com/sensor/all");
         // request.add("headers", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwN2QzYWI3NWU3OCIsInB3ZCI6MSwiaWF0IjoxNjM1NDMxNzg5LCJleHAiOjE2MzU0MzE4MTl9.aBSILvJec18zcqapUxwqWIBhykKP0bc5fA3GxQ2rk8w");
@@ -63,12 +71,38 @@ contract Sensors is ChainlinkClient {
     /**
      * Receive the response in the form of uint256
      */ 
-    function fulfill(bytes32 _requestId, bytes32 _data) public recordChainlinkFulfillment(_requestId)
+    function fulfillId(bytes32 _requestId, bytes32 _data) public recordChainlinkFulfillment(_requestId)
     {  
-        data = _data;
+        id = _data;
     }
     
-    function getData() public view returns (bytes32) {
-        return data;
+    function fulfillTemp(bytes32 _requestId, bytes32 _data) public recordChainlinkFulfillment(_requestId)
+    {  
+        temp = _data;
+    }
+
+    function fulfillHum(bytes32 _requestId, bytes32 _data) public recordChainlinkFulfillment(_requestId)
+    {  
+        hum = _data;
+    }
+
+    function fulfillTimestamp(bytes32 _requestId, bytes32 _data) public recordChainlinkFulfillment(_requestId)
+    {  
+        timestamp = _data;
+    }
+
+    function getData(uint32 _jobtype) public view returns (bytes32) {
+        if (_jobtype == 0) {
+            return id;
+        }
+        if (_jobtype == 1) {
+            return temp;
+        }
+        if (_jobtype == 2) {
+            return hum;
+        }
+        if (_jobtype == 3) {
+            return timestamp;
+        }
     }
 }
