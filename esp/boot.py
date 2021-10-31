@@ -31,5 +31,6 @@ while station.isconnected() == False:
 print('Connection successful')
 print(station.ifconfig())
 
-import ntptime
+import ntptime # get time from NTP
 ntptime.settime()
+import utime # convert to unix

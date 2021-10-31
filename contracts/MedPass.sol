@@ -295,6 +295,7 @@ contract MedPass {
         bytes32 hum;
         bytes32 time;
     }
+    uint sensorCount;
 
     mapping(bytes32 => Sensor) public sensors;
 
@@ -303,21 +304,10 @@ contract MedPass {
         sensors[_id].temp = _temp;
         sensors[_id].hum = _hum;
         sensors[_id].time = _time;
+        sensorCount++;
     }
 
-    /*function getID(string memory _id) public view onlyAdmin returns (string memory) {
-        return sensors[_id].id;
+    function getSensorCount() public view onlyAdmin returns (uint) {
+        return sensorCount;
     }
-
-    function getTemp(string memory _id) public view onlyAdmin returns (uint32) {
-        return sensors[_id].temp;
-    }
-
-    function getHum(string memory _id) public view onlyAdmin returns (uint32) {
-        return sensors[_id].hum;
-    }
-
-    function getTime(string memory _id) public view onlyAdmin returns (int256) {
-        return sensors[_id].time;
-    }*/
 }
