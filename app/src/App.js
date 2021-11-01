@@ -24,7 +24,7 @@ export default () => {
 
           return (
             <Router>
-              <Navigation />
+              <Navigation drizzle={drizzle} drizzleState={drizzleState}/>
               <Switch>
                 <Route exact path="/" render={() => {
                   return <Home drizzle={drizzle} drizzleState={drizzleState} />
