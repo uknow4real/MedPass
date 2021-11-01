@@ -1,7 +1,6 @@
 temp = hum = 0
 key = ubinascii.hexlify(machine.unique_id()).decode()
 headers = {'Content-Type': 'application/json'}
-url = "http://{}/sensor".format(api)
 
 def read_dht():
   try:
@@ -21,17 +20,17 @@ def read_dht():
 def send_request(timestamp, temp, hum, token):
     data = ujson.dumps({ "id": key, "time": timestamp, "temp": temp, "hum": hum})
     header = {'Content-Type': 'application/json', 'Authorization': 'Bearer {}'.format(token)}
-    response = urequests.post(url, headers=header, data=data)
+    response = urequests.post(dataUrl, headers=header, data=data)
     print(response.json())
 
 def send_error(status):
     data = ujson.dumps({ "id": key, "status": status })
-    response = urequests.post(url, headers=headers, data=data)
+    response = urequests.post(dataUrl, headers=headers, data=data)
     print(response.json())
     
 def getAuth():
     data = ujson.dumps({ "id": key, "pwd": pwd })
-    response = urequests.post(authurl, headers=headers, data=data)
+    response = urequests.post(authUrl, headers=headers, data=data)
     return response.json()
     
 while True:

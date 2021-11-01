@@ -17,8 +17,8 @@ import ubinascii #to convert device id
 
 ssid = '' #str
 password = '' #str
-api = '' #str
-authurl = '' #str
+dataUrl = '' #str
+authUrl = '' #str
 pwd = '' #int
 
 station = network.WLAN(network.STA_IF)
