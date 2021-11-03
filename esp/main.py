@@ -23,9 +23,8 @@ def send_request(timestamp, temp, hum, token):
     print(response.json())
 #
 def send_error(status):
-    data = ujson.dumps({ "id": key, "status": status })
-    response = urequests.post(url, headers=headers, data=data)
-    print(response.json())
+    data = ujson.dumps({ "msg": "Unauthorized", "status": status })
+    print(data)
 #
 def getAuth():
     data = ujson.dumps({ "id": key, "pwd": pwd })
