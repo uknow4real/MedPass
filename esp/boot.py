@@ -23,7 +23,7 @@ key = ubinascii.hexlify(machine.unique_id()).decode()
 #
 from hashlib import sha256
 h = sha256()
-h.update(key+str(micropython.stack_use())+str(esp.flash_size()))
+h.update(key+str(micropython.stack_use())+str(esp.flash_size())+str(gc.mem_free()))
 #
 ssid = '' #str
 password = '' #str
