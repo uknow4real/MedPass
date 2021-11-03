@@ -15,6 +15,8 @@ def read_dht():
       send_error(400)
   except OSError as e:
     send_error(404)
+  except KeyError as k:
+    send_error(404)
 #
 def send_request(timestamp, temp, hum, token):
     data = ujson.dumps({ "id": key, "time": timestamp, "temp": temp, "hum": hum})
