@@ -4,3 +4,4 @@ app/src/contracts
 .DS_Store
 secrets.json
 api/address.json
+app/src/totalSensors.js
