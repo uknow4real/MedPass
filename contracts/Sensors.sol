@@ -38,31 +38,31 @@ contract Sensors is ChainlinkClient {
      */
     function requestData(string memory _id, uint32 _jobtype) public returns (bytes32 requestId) 
     {
-        bytes memory s;
-        s = abi.encodePacked("sensors.");
-        s = abi.encodePacked(s, _id);
+        string memory call;
+        string memory url;
         Chainlink.Request memory request;
         if (_jobtype == 0) {
-            s = abi.encodePacked(s, ".id");
+            call = "id";
             request = buildChainlinkRequest(jobId, address(this), this.fulfillId.selector);
         }
         if (_jobtype == 1) {
-            s = abi.encodePacked(s, ".temp");
+            call = "temp";
             request = buildChainlinkRequest(jobId, address(this), this.fulfillTemp.selector);
         }
         if (_jobtype == 2) {
-            s = abi.encodePacked(s, ".hum");
+            call = "hum";
             request = buildChainlinkRequest(jobId, address(this), this.fulfillHum.selector);
         }
         if (_jobtype == 3) {
-            s = abi.encodePacked(s, ".time");
+            call = "time";
             request = buildChainlinkRequest(jobId, address(this), this.fulfillTimestamp.selector);
         }
-        string memory call = string(s);
-        
+        bytes memory s;
+        s = abi.encodePacked("http://api-env.eba-jzmbf5ps.us-east-2.elasticbeanstalk.com/sensor/");
+        s = abi.encodePacked(s, _id);
+        url = string(s);
         // Set the URL to perform the GET request on
-        request.add("get", "http://api-env.eba-jzmbf5ps.us-east-2.elasticbeanstalk.com/sensor/all");
-        // request.add("headers", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwN2QzYWI3NWU3OCIsInB3ZCI6MSwiaWF0IjoxNjM1NDMxNzg5LCJleHAiOjE2MzU0MzE4MTl9.aBSILvJec18zcqapUxwqWIBhykKP0bc5fA3GxQ2rk8w");
+        request.add("get", url);
         // Set the path to find the desired data in the API response, where the response format is:
         request.add("path", call);
         // Sends the request

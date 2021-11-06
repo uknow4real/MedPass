@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import $ from 'jquery';
-const sensors = require('./totalSensors');
+const totalSensors = require('./totalSensors');
 const web3 = require("web3");
 
 export default class Sensors extends Component {
@@ -14,13 +13,10 @@ export default class Sensors extends Component {
     const isAdmin = await drizzle.contracts.MedPass.methods.adminmapping(drizzleState.accounts[0]).call()
     this.setState({ isAdmin: isAdmin })
   }
-  async loadData(drizzle, drizzleState) {
-    //const sensorCount = await drizzle.contracts.MedPass.methods.getSensorCount().call()
-    $.ajax(
-
-    )
-    for (let i = 0; i < sensors.length; i++) {
-      let sensor = await drizzle.contracts.MedPass.methods.sensors(web3.utils.toHex(sensors[i])).call()
+  async loadData(drizzle) {
+    for (let i = 0; i < totalSensors.length; i++) {
+      let sensor = await drizzle.contracts.MedPass.methods.sensors(web3.utils.toHex(totalSensors[i])).call()
+      console.log(sensor)
       this.setState({
         sensors: [...this.state.sensors, sensor]
       })
@@ -37,11 +33,11 @@ export default class Sensors extends Component {
     const drizzle = this.props.drizzle;
     const { isAdmin, sensors } = this.state;
     async function requestData() {
-      for(let i = 0; i < 2; i++) {
-        await drizzle.contracts.Sensors.methods.requestData(i.toString(), 0).send();
-        await drizzle.contracts.Sensors.methods.requestData(i.toString(), 1).send();
-        await drizzle.contracts.Sensors.methods.requestData(i.toString(), 2).send();
-        await drizzle.contracts.Sensors.methods.requestData(i.toString(), 3).send();
+      for(let i = 0; i < totalSensors.length; i++) {
+        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 0).send();
+        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 1).send();
+        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 2).send();
+        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 3).send();
 
         var id = await drizzle.contracts.Sensors.methods.getData(0).call();
         console.log(id);
@@ -53,7 +49,7 @@ export default class Sensors extends Component {
         console.log(timestamp);
       
         await drizzle.contracts.MedPass.methods.writeData(id, temp, hum, timestamp).send()
-        alert("Requested Sensor "+i+1);
+        alert("Requested Sensor "+totalSensors[i]);
       }
       window.location.reload();
     }

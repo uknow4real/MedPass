@@ -295,19 +295,11 @@ contract MedPass {
         bytes32 hum;
         bytes32 time;
     }
-    uint sensorCount;
 
     mapping(bytes32 => Sensor) public sensors;
 
     function writeData(bytes32 _id, bytes32 _temp, bytes32 _hum, bytes32 _time) public onlyAdmin {
-        sensors[_id].id = _id;
-        sensors[_id].temp = _temp;
-        sensors[_id].hum = _hum;
-        sensors[_id].time = _time;
-        sensorCount++;
-    }
-
-    function getSensorCount() public view onlyAdmin returns (uint) {
-        return sensorCount;
+        Sensor memory sensor = Sensor(_id, _temp, _hum, _time);
+        sensors[sensor.id] = sensor;
     }
 }
