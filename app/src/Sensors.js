@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-const totalSensors = require('./totalSensors');
+const totalSensors = require("./totalSensors");
 const web3 = require("web3");
 
 export default class Sensors extends Component {
@@ -10,47 +10,62 @@ export default class Sensors extends Component {
     this.loadData(drizzle, drizzleState);
   }
   async isAdmin(drizzle, drizzleState) {
-    const isAdmin = await drizzle.contracts.MedPass.methods.adminmapping(drizzleState.accounts[0]).call()
-    this.setState({ isAdmin: isAdmin })
+    const isAdmin = await drizzle.contracts.MedPass.methods
+      .adminmapping(drizzleState.accounts[0])
+      .call();
+    this.setState({ isAdmin: isAdmin });
   }
   async loadData(drizzle) {
     for (let i = 0; i < totalSensors.length; i++) {
-      let sensor = await drizzle.contracts.MedPass.methods.sensors(web3.utils.toHex(totalSensors[i])).call()
-      console.log(sensor)
+      let sensor = await drizzle.contracts.MedPass.methods
+        .sensors(web3.utils.toHex(totalSensors[i]))
+        .call();
+      console.log(sensor);
       this.setState({
-        sensors: [...this.state.sensors, sensor]
-      })
+        sensors: [...this.state.sensors, sensor],
+      });
     }
   }
   constructor(props) {
     super(props);
     this.state = {
       isAdmin: null,
-      sensors: []
+      sensors: [],
     };
   }
   render() {
     const drizzle = this.props.drizzle;
     const { isAdmin, sensors } = this.state;
     async function requestData() {
-      for(let i = 0; i < totalSensors.length; i++) {
-        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 0).send();
-        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 1).send();
-        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 2).send();
-        await drizzle.contracts.Sensors.methods.requestData(totalSensors[i], 3).send();
+      let sensor = document.getElementById("sensors").value;
 
-        var id = await drizzle.contracts.Sensors.methods.getData(0).call();
-        console.log(id);
-        var temp = await drizzle.contracts.Sensors.methods.getData(1).call();
-        console.log(temp);     
-        var hum = await drizzle.contracts.Sensors.methods.getData(2).call();
-        console.log(hum);
-        var timestamp = await drizzle.contracts.Sensors.methods.getData(3).call();
-        console.log(timestamp);
-      
-        await drizzle.contracts.MedPass.methods.writeData(id, temp, hum, timestamp).send()
-        alert("Requested Sensor "+totalSensors[i]);
-      }
+      await drizzle.contracts.Sensors.methods
+        .requestData(sensor, 0)
+        .send();
+      await drizzle.contracts.Sensors.methods
+        .requestData(sensor, 1)
+        .send();
+      await drizzle.contracts.Sensors.methods
+        .requestData(sensor, 2)
+        .send();
+      await drizzle.contracts.Sensors.methods
+        .requestData(sensor, 3)
+        .send();
+
+      var id = await drizzle.contracts.Sensors.methods.getData(0).call();
+      console.log(id);
+      var temp = await drizzle.contracts.Sensors.methods.getData(1).call();
+      console.log(temp);
+      var hum = await drizzle.contracts.Sensors.methods.getData(2).call();
+      console.log(hum);
+      var timestamp = await drizzle.contracts.Sensors.methods.getData(3).call();
+      console.log(timestamp);
+
+      await drizzle.contracts.MedPass.methods
+        .writeData(id, temp, hum, timestamp)
+        .send();
+      alert("Requested Sensor " + sensor);
+
       window.location.reload();
     }
     if (isAdmin === true) {
@@ -66,7 +81,14 @@ export default class Sensors extends Component {
                       <h6>Sensor ID: {web3.utils.toAscii(sensor.id)} </h6>
                     </div>
                     <span className="test-field">
-                      <b>Time:</b> {new Date(parseInt(web3.utils.toAscii(sensor.time)) * 1000).toLocaleTimeString()+" "+new Date(parseInt(web3.utils.toAscii(sensor.time)) * 1000).toLocaleDateString()}
+                      <b>Time:</b>{" "}
+                      {new Date(
+                        parseInt(web3.utils.toAscii(sensor.time)) * 1000
+                      ).toLocaleTimeString() +
+                        " " +
+                        new Date(
+                          parseInt(web3.utils.toAscii(sensor.time)) * 1000
+                        ).toLocaleDateString()}
                     </span>
                     <span className="test-field">
                       <b>Temperature:</b> {web3.utils.toAscii(sensor.temp)}°C
@@ -77,6 +99,10 @@ export default class Sensors extends Component {
                   </div>
                 );
               })}
+              <select className="form-control" id="sensors">
+                <option value={totalSensors[0]}>{totalSensors[0]}</option>
+                <option value={totalSensors[1]}>{totalSensors[1]}</option>
+              </select>
               <div className="btn-container">
                 <button
                   type="button"
@@ -95,9 +121,7 @@ export default class Sensors extends Component {
       window.location.href = "/";
     }
     if (isAdmin === null) {
-      return (
-        <h6></h6>
-      )
+      return <h6></h6>;
     }
   }
 }
