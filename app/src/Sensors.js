@@ -130,6 +130,7 @@ export default class Sensors extends Component {
                             segments={1}
                             needleHeightRatio={0.7}
                             needleColor="black"
+                            segments={4}
                             startColor="cornflowerblue"
                           />
                         </div>
