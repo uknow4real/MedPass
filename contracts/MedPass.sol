@@ -173,8 +173,8 @@ contract MedPass {
 
         totalTestCount++;
         identity[idToAdd[_id]].testCount += 1;
-        uint256 testCount = identity[idToAdd[_id]].testCount;
 
+        uint256 testCount = identity[idToAdd[_id]].testCount;
         personTests[testCount].timestamp = block.timestamp;
 
         if (Hash == keccak256("Negative")) {
@@ -289,6 +289,8 @@ contract MedPass {
     }
 
     // --------------- SENSOR ------------------
+    uint256 totalMeasureCount = 0;
+    
     struct Sensor {
         bytes32 id;
         bytes32 temp;
@@ -296,10 +298,18 @@ contract MedPass {
         bytes32 time;
     }
 
+
     mapping(bytes32 => Sensor) public sensors;
+    mapping(uint256 => Sensor) public history;
 
     function writeData(bytes32 _id, bytes32 _temp, bytes32 _hum, bytes32 _time) public onlyAdmin {
         Sensor memory sensor = Sensor(_id, _temp, _hum, _time);
         sensors[sensor.id] = sensor;
+        totalMeasureCount++;
+        history[totalMeasureCount] = sensor;
+    }
+
+    function getTotalMeasureCount() public view returns (uint256) {
+        return totalMeasureCount;
     }
 }
