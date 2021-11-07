@@ -17,7 +17,10 @@ export default class Sensors extends Component {
     this.setState({ isAdmin: isAdmin });
   }
   async loadData(drizzle) {
-    for (let i = 0; i < totalSensors.length; i++) {
+    const measureCount = await drizzle.contracts.MedPass.methods
+      .getTotalMeasureCount()
+      .call();
+    for (let i = 0; i < 1; i++) {
       let sensor = await drizzle.contracts.MedPass.methods
         .sensors(web3.utils.toHex(totalSensors[i]))
         .call();
@@ -26,17 +29,25 @@ export default class Sensors extends Component {
         sensors: [...this.state.sensors, sensor],
       });
     }
+    for (let i = measureCount; i >= 1; i--) {
+      let measure = await drizzle.contracts.MedPass.methods.history(i).call();
+      this.setState({
+        history: [...this.state.history, measure],
+      });
+      console.log(measure);
+    }
   }
   constructor(props) {
     super(props);
     this.state = {
       isAdmin: null,
       sensors: [],
+      history: [],
     };
   }
   render() {
     const drizzle = this.props.drizzle;
-    const { isAdmin, sensors } = this.state;
+    const { isAdmin, sensors, history } = this.state;
     async function requestData() {
       let sensor = document.getElementById("sensors").value;
 
@@ -139,6 +150,37 @@ export default class Sensors extends Component {
                   </div>
                 );
               })}
+              <hr></hr>
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Temperature</th>
+                    <th scope="col">Humidity</th>
+                    <th scope="col">Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {history.map((measure, key) => {
+                    return (
+
+                      <tr>
+                        <th scope="row">{web3.utils.toAscii(measure.id)}</th>
+                        <td>{web3.utils.toAscii(measure.temp)}°C</td>
+                        <td>{web3.utils.toAscii(measure.hum)}%</td>
+                        <td>
+                          {new Date(
+                            parseInt(web3.utils.toAscii(measure.time)) * 1000
+                          ).toLocaleTimeString()} {new Date(
+                            parseInt(web3.utils.toAscii(measure.time)) * 1000
+                          ).toLocaleDateString()}
+                        </td>
+                      </tr>
+
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
