@@ -81,6 +81,19 @@ export default class Sensors extends Component {
                       <h6>Sensor ID: {web3.utils.toAscii(sensor.id)} </h6>
                     </div>
                     <span className="test-field">
+                    <div class="row">
+  
+                        <div class="col">
+                            <div class="text-muted">Temperature</div>
+                            <i class="bi bi-thermometer" style={{'font-size': '4rem', 'color': 'coral'}}></i>
+                            <div class="h3 text-secondary">{web3.utils.toAscii(sensor.temp)}°C</div>
+                        </div>
+                        <div class="col">
+                            <div class="text-muted">Humidity</div>
+                            <i class="bi bi-moisture" style={{'font-size': '4rem', 'color': 'cornflowerblue'}}></i>
+                            <div class="h3 text-secondary">{web3.utils.toAscii(sensor.hum)}%</div>
+                        </div>
+                    </div>
                       <b>Time:</b>{" "}
                       {new Date(
                         parseInt(web3.utils.toAscii(sensor.time)) * 1000
@@ -89,12 +102,6 @@ export default class Sensors extends Component {
                         new Date(
                           parseInt(web3.utils.toAscii(sensor.time)) * 1000
                         ).toLocaleDateString()}
-                    </span>
-                    <span className="test-field">
-                      <b>Temperature:</b> {web3.utils.toAscii(sensor.temp)}°C
-                    </span>
-                    <span className="test-field">
-                      <b>Humidity:</b> {web3.utils.toAscii(sensor.hum)}%
                     </span>
                   </div>
                 );

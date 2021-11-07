@@ -55,7 +55,7 @@ In order to launch the commands below, make sure you have already installed [nod
 ```
 npm install -g truffle
 cd app
-npm install react-scripts react-bootstrap bootstrap --save
+npm install react-scripts react-bootstrap bootstrap boostrap-icons --save
 npm install @drizzle/store @drizzle/react-plugin @drizzle/
 npm install react-router-dom react-qr-code react-datepicker
 npm install @chainlink/contracts --save
