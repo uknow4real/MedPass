@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactSpeedometer from "react-d3-speedometer";
 const totalSensors = require("./totalSensors");
 const web3 = require("web3");
 
@@ -39,18 +40,10 @@ export default class Sensors extends Component {
     async function requestData() {
       let sensor = document.getElementById("sensors").value;
 
-      await drizzle.contracts.Sensors.methods
-        .requestData(sensor, 0)
-        .send();
-      await drizzle.contracts.Sensors.methods
-        .requestData(sensor, 1)
-        .send();
-      await drizzle.contracts.Sensors.methods
-        .requestData(sensor, 2)
-        .send();
-      await drizzle.contracts.Sensors.methods
-        .requestData(sensor, 3)
-        .send();
+      await drizzle.contracts.Sensors.methods.requestData(sensor, 0).send();
+      await drizzle.contracts.Sensors.methods.requestData(sensor, 1).send();
+      await drizzle.contracts.Sensors.methods.requestData(sensor, 2).send();
+      await drizzle.contracts.Sensors.methods.requestData(sensor, 3).send();
 
       var id = await drizzle.contracts.Sensors.methods.getData(0).call();
       console.log(id);
@@ -74,38 +67,7 @@ export default class Sensors extends Component {
           <div className="section">
             <div className="setting-section border">
               <h2>Sensors</h2>
-              {sensors.map((sensor, key) => {
-                return (
-                  <div className="card text-center mb-3" key={key}>
-                    <div className="card-header">
-                      <h6>Sensor ID: {web3.utils.toAscii(sensor.id)} </h6>
-                    </div>
-                    <span className="test-field">
-                    <div class="row">
-  
-                        <div class="col">
-                            <div class="text-muted">Temperature</div>
-                            <i class="bi bi-thermometer" style={{'font-size': '4rem', 'color': 'coral'}}></i>
-                            <div class="h3 text-secondary">{web3.utils.toAscii(sensor.temp)}°C</div>
-                        </div>
-                        <div class="col">
-                            <div class="text-muted">Humidity</div>
-                            <i class="bi bi-moisture" style={{'font-size': '4rem', 'color': 'cornflowerblue'}}></i>
-                            <div class="h3 text-secondary">{web3.utils.toAscii(sensor.hum)}%</div>
-                        </div>
-                    </div>
-                      <b>Time:</b>{" "}
-                      {new Date(
-                        parseInt(web3.utils.toAscii(sensor.time)) * 1000
-                      ).toLocaleTimeString() +
-                        " " +
-                        new Date(
-                          parseInt(web3.utils.toAscii(sensor.time)) * 1000
-                        ).toLocaleDateString()}
-                    </span>
-                  </div>
-                );
-              })}
+              Select your Sensor:
               <select className="form-control" id="sensors">
                 <option value={totalSensors[0]}>{totalSensors[0]}</option>
                 <option value={totalSensors[1]}>{totalSensors[1]}</option>
@@ -119,6 +81,69 @@ export default class Sensors extends Component {
                   Request Data
                 </button>
               </div>
+              <hr></hr>
+              {sensors.map((sensor, key) => {
+                return (
+                  <div className="card text-center mb-3" key={key}>
+                    <div className="card-header">
+                      <h6>Sensor ID: {web3.utils.toAscii(sensor.id)} </h6>
+                    </div>
+                    <div className="h6 text-secondary">
+                      Time:{" "}
+                      {new Date(
+                        parseInt(web3.utils.toAscii(sensor.time)) * 1000
+                      ).toLocaleTimeString()}
+                    </div>
+
+                    <div className="h6 text-secondary">
+                      Date:{" "}
+                      {new Date(
+                        parseInt(web3.utils.toAscii(sensor.time)) * 1000
+                      ).toLocaleDateString()}
+                    </div>
+
+                    <span className="test-field">
+                      <div className="row">
+                        <div className="col">
+                          <div className="text-muted">
+                            Temperature<i className="bi bi-thermometer"></i>
+                          </div>
+                          <ReactSpeedometer
+                            maxValue={100}
+                            value={parseInt(web3.utils.hexToUtf8(sensor.temp))}
+                            currentValueText="${value}°C"
+                            valueTextFontSize={25}
+                            needleColor="black"
+                            needleHeightRatio={0.7}
+                            segments={4}
+                            segmentColors={[
+                              "#a3be8c",
+                              "#ebcb8b",
+                              "#d08770",
+                              "#bf616a",
+                            ]}
+                          />
+                        </div>
+                        <div className="col">
+                          <div className="text-muted">
+                            Humidity <i className="bi bi-water"></i>
+                          </div>
+                          <ReactSpeedometer
+                            maxValue={100}
+                            value={parseInt(web3.utils.hexToUtf8(sensor.hum))}
+                            currentValueText="${value}%"
+                            valueTextFontSize={25}
+                            segments={1}
+                            needleHeightRatio={0.7}
+                            needleColor="black"
+                            startColor="cornflowerblue"
+                          />
+                        </div>
+                      </div>
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
