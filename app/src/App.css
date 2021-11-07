@@ -88,5 +88,8 @@ h2 {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #44C253;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #44C253;
 }
+.speedometer {
+  height: 175px !important;
+}
 
 /* VACCINE */
