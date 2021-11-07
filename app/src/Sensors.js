@@ -102,14 +102,14 @@ export default class Sensors extends Component {
                     <div className="h6 text-secondary">
                       Time:{" "}
                       {new Date(
-                        parseInt(web3.utils.toAscii(sensor.time)) * 1000
+                        parseInt(web3.utils.toAscii(sensor.m_time)) * 1000
                       ).toLocaleTimeString()}
                     </div>
 
                     <div className="h6 text-secondary">
                       Date:{" "}
                       {new Date(
-                        parseInt(web3.utils.toAscii(sensor.time)) * 1000
+                        parseInt(web3.utils.toAscii(sensor.m_time)) * 1000
                       ).toLocaleDateString()}
                     </div>
 
@@ -120,13 +120,13 @@ export default class Sensors extends Component {
                             Temperature<i className="bi bi-thermometer"></i>
                           </div>
                           <ReactSpeedometer
-                            maxValue={100}
+                            maxValue={50}
                             value={parseInt(web3.utils.hexToUtf8(sensor.temp))}
-                            currentValueText="${value}°C"
+                            // eslint-disable-next-line
+                            currentValueText='${value}°C'
                             valueTextFontSize="25"
                             needleColor="black"
                             needleHeightRatio={0.7}
-                            segments={4}
                           />
                         </div>
                         <div className="col">
@@ -134,14 +134,13 @@ export default class Sensors extends Component {
                             Humidity <i className="bi bi-water"></i>
                           </div>
                           <ReactSpeedometer
-                            maxValue={100}
+                            maxValue={50}
                             value={parseInt(web3.utils.hexToUtf8(sensor.hum))}
+                            // eslint-disable-next-line
                             currentValueText="${value}%"
                             valueTextFontSize="25"
-                            segments={1}
                             needleHeightRatio={0.7}
                             needleColor="black"
-                            segments={4}
                             startColor="cornflowerblue"
                           />
                         </div>
@@ -151,17 +150,19 @@ export default class Sensors extends Component {
                 );
               })}
               <hr></hr>
+              <h3>History</h3>
               <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Temperature</th>
                     <th scope="col">Humidity</th>
-                    <th scope="col">Timestamp</th>
+                    <th scope="col">Measure Time</th>
+                    <th scope="col">Log Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {history.map((measure, key) => {
+                  {history.map((measure) => {
                     return (
 
                       <tr>
@@ -170,9 +171,16 @@ export default class Sensors extends Component {
                         <td>{web3.utils.toAscii(measure.hum)}%</td>
                         <td>
                           {new Date(
-                            parseInt(web3.utils.toAscii(measure.time)) * 1000
+                            parseInt(web3.utils.toAscii(measure.m_time)) * 1000
                           ).toLocaleTimeString()} {new Date(
-                            parseInt(web3.utils.toAscii(measure.time)) * 1000
+                            parseInt(web3.utils.toAscii(measure.m_time)) * 1000
+                          ).toLocaleDateString()}
+                        </td>
+                        <td>
+                          {new Date(
+                           measure.l_time * 1000
+                          ).toLocaleTimeString()} {new Date(
+                            measure.l_time * 1000
                           ).toLocaleDateString()}
                         </td>
                       </tr>
@@ -186,11 +194,8 @@ export default class Sensors extends Component {
         </div>
       );
     }
-    if (isAdmin === false) {
-      window.location.href = "/";
-    }
-    if (isAdmin === null) {
-      return <h6></h6>;
+    if (isAdmin === null || isAdmin === false) {
+      return <div className="h3 text-center">You are not admin!</div>;
     }
   }
 }

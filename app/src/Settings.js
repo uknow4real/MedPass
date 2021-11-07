@@ -39,6 +39,7 @@ export default class Settings extends Component {
         async function setAdmin() {
             await drizzle.contracts.MedPass.methods.setAdmin().send()
             alert("You are now an admin!");
+            window.location.reload();
         }
         async function setCondition(bool) {
             let patientID = document.getElementById("patientID_t").value;

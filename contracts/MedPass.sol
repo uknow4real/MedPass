@@ -295,7 +295,8 @@ contract MedPass {
         bytes32 id;
         bytes32 temp;
         bytes32 hum;
-        bytes32 time;
+        bytes32 m_time; //measure time
+        uint256 l_time; //log time
     }
 
 
@@ -303,7 +304,7 @@ contract MedPass {
     mapping(uint256 => Sensor) public history;
 
     function writeData(bytes32 _id, bytes32 _temp, bytes32 _hum, bytes32 _time) public onlyAdmin {
-        Sensor memory sensor = Sensor(_id, _temp, _hum, _time);
+        Sensor memory sensor = Sensor(_id, _temp, _hum, _time, block.timestamp);
         sensors[sensor.id] = sensor;
         totalMeasureCount++;
         history[totalMeasureCount] = sensor;
