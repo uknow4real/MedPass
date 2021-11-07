@@ -112,16 +112,10 @@ export default class Sensors extends Component {
                             maxValue={100}
                             value={parseInt(web3.utils.hexToUtf8(sensor.temp))}
                             currentValueText="${value}°C"
-                            valueTextFontSize={25}
+                            valueTextFontSize="25"
                             needleColor="black"
                             needleHeightRatio={0.7}
                             segments={4}
-                            segmentColors={[
-                              "#a3be8c",
-                              "#ebcb8b",
-                              "#d08770",
-                              "#bf616a",
-                            ]}
                           />
                         </div>
                         <div className="col">
@@ -132,7 +126,7 @@ export default class Sensors extends Component {
                             maxValue={100}
                             value={parseInt(web3.utils.hexToUtf8(sensor.hum))}
                             currentValueText="${value}%"
-                            valueTextFontSize={25}
+                            valueTextFontSize="25"
                             segments={1}
                             needleHeightRatio={0.7}
                             needleColor="black"
