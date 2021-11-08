@@ -15,8 +15,12 @@ const provider = new HDWalletProvider(
   `https://kovan.infura.io/v3/${projectId}`
 );
 const web3 = new Web3(provider);
-let MedPass = new web3.eth.Contract(MedPassArtifact.abi, medpassAddress, {from: address});
-let Sensors = new web3.eth.Contract(SensorsArtifact.abi, sensorsAddress, {from: address});
+let MedPass = new web3.eth.Contract(MedPassArtifact.abi, medpassAddress, {
+  from: address,
+});
+let Sensors = new web3.eth.Contract(SensorsArtifact.abi, sensorsAddress, {
+  from: address,
+});
 
 const options = {
   web3: {
@@ -26,11 +30,11 @@ const options = {
   contracts: [
     {
       contractName: MedPassArtifact.contractName,
-      web3Contract: MedPass
+      web3Contract: MedPass,
     },
     {
       contractName: SensorsArtifact.contractName,
-      web3Contract: Sensors
+      web3Contract: Sensors,
     },
   ],
 };
