@@ -17,24 +17,30 @@ export default class Sensors extends Component {
     this.setState({ isAdmin: isAdmin });
   }
   async loadData(drizzle) {
+    var id = await drizzle.contracts.Sensors.methods.getData(0).call();
+    var temp = await drizzle.contracts.Sensors.methods.getData(1).call();
+    var hum = await drizzle.contracts.Sensors.methods.getData(2).call();
+    var timestamp = await drizzle.contracts.Sensors.methods.getData(3).call();
+    this.setState({
+      id: web3.utils.toAscii(id),
+      temp: parseInt(web3.utils.hexToUtf8(temp)),
+      hum: parseInt(web3.utils.hexToUtf8(hum)),
+      time: new Date(
+        parseInt(web3.utils.toAscii(timestamp)) * 1000
+      ).toLocaleTimeString(),
+      date: new Date(
+        parseInt(web3.utils.toAscii(timestamp)) * 1000
+      ).toLocaleDateString(),
+    });
+
     const measureCount = await drizzle.contracts.MedPass.methods
       .getTotalMeasureCount()
       .call();
-    for (let i = 0; i < 1; i++) {
-      let sensor = await drizzle.contracts.MedPass.methods
-        .sensors(web3.utils.toHex(totalSensors[i]))
-        .call();
-      console.log(sensor);
-      this.setState({
-        sensors: [...this.state.sensors, sensor],
-      });
-    }
     for (let i = measureCount; i >= 1; i--) {
       let measure = await drizzle.contracts.MedPass.methods.history(i).call();
       this.setState({
         history: [...this.state.history, measure],
       });
-      console.log(measure);
     }
   }
   constructor(props) {
@@ -43,11 +49,16 @@ export default class Sensors extends Component {
       isAdmin: null,
       sensors: [],
       history: [],
+      id: "loading...",
+      time: "loading...",
+      date: "loading...",
+      temp: 0,
+      hum: 0,
     };
   }
   render() {
     const drizzle = this.props.drizzle;
-    const { isAdmin, sensors, history } = this.state;
+    const { isAdmin, history, id, time, date, temp, hum } = this.state;
     async function requestData() {
       let sensor = document.getElementById("sensors").value;
 
@@ -55,21 +66,22 @@ export default class Sensors extends Component {
       await drizzle.contracts.Sensors.methods.requestData(sensor, 1).send();
       await drizzle.contracts.Sensors.methods.requestData(sensor, 2).send();
       await drizzle.contracts.Sensors.methods.requestData(sensor, 3).send();
-
+      alert("Request data from" + sensor);
+    }
+    async function refreshData() {
+      window.location.reload();
+    }
+    async function writeData() {
+      let sensor = document.getElementById("sensors").value;
       var id = await drizzle.contracts.Sensors.methods.getData(0).call();
-      console.log(id);
       var temp = await drizzle.contracts.Sensors.methods.getData(1).call();
-      console.log(temp);
       var hum = await drizzle.contracts.Sensors.methods.getData(2).call();
-      console.log(hum);
       var timestamp = await drizzle.contracts.Sensors.methods.getData(3).call();
-      console.log(timestamp);
-
+      console.log("loaded Data");
       await drizzle.contracts.MedPass.methods
         .writeData(id, temp, hum, timestamp)
         .send();
       alert("Requested Sensor " + sensor);
-
       window.location.reload();
     }
     if (isAdmin === true) {
@@ -83,75 +95,82 @@ export default class Sensors extends Component {
                 <option value={totalSensors[0]}>{totalSensors[0]}</option>
                 <option value={totalSensors[1]}>{totalSensors[1]}</option>
               </select>
-              <div className="btn-container">
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={requestData}
-                >
-                  Request Data
-                </button>
+              <br></br>
+              <div className="row">
+                <div className="col-4 btn-container">
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={requestData}
+                  >
+                    Request Data
+                  </button>
+                </div>
+                <div className="col-4 btn-container">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={refreshData}
+                  >
+                    Refresh Data
+                  </button>
+                </div>
+                <div className="col-4 btn-container">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={writeData}
+                  >
+                    Write Data
+                  </button>
+                </div>
               </div>
               <hr></hr>
-              {sensors.map((sensor, key) => {
-                return (
-                  <div className="card text-center mb-3" key={key}>
-                    <div className="card-header">
-                      <h6>Sensor ID: {web3.utils.toAscii(sensor.id)} </h6>
-                    </div>
-                    <div className="h6 text-secondary">
-                      Time:{" "}
-                      {new Date(
-                        parseInt(web3.utils.toAscii(sensor.m_time)) * 1000
-                      ).toLocaleTimeString()}
-                    </div>
+              <div className="card text-center mb-3">
+                <div className="card-header">
+                  <h6>Sensor ID: {id} </h6>
+                </div>
+                <div className="h6 text-secondary">Time: {time}</div>
 
-                    <div className="h6 text-secondary">
-                      Date:{" "}
-                      {new Date(
-                        parseInt(web3.utils.toAscii(sensor.m_time)) * 1000
-                      ).toLocaleDateString()}
-                    </div>
+                <div className="h6 text-secondary">Date: {date}</div>
 
-                    <span className="test-field">
-                      <div className="row">
-                        <div className="col">
-                          <div className="text-muted">
-                            Temperature<i className="bi bi-thermometer"></i>
-                          </div>
-                          <ReactSpeedometer
-                            maxValue={50}
-                            value={parseInt(web3.utils.hexToUtf8(sensor.temp))}
-                            // eslint-disable-next-line
-                            currentValueText='${value}°C'
-                            valueTextFontSize="25"
-                            needleColor="black"
-                            needleHeightRatio={0.7}
-                          />
-                        </div>
-                        <div className="col">
-                          <div className="text-muted">
-                            Humidity <i className="bi bi-water"></i>
-                          </div>
-                          <ReactSpeedometer
-                            maxValue={50}
-                            value={parseInt(web3.utils.hexToUtf8(sensor.hum))}
-                            // eslint-disable-next-line
-                            currentValueText="${value}%"
-                            valueTextFontSize="25"
-                            needleHeightRatio={0.7}
-                            needleColor="black"
-                            startColor="cornflowerblue"
-                          />
-                        </div>
+                <span className="test-field">
+                  <div className="row">
+                    <div className="col">
+                      <div className="text-muted">
+                        Temperature<i className="bi bi-thermometer"></i>
                       </div>
-                    </span>
+                      <ReactSpeedometer
+                        maxValue={50}
+                        value={temp}
+                        // eslint-disable-next-line
+                        currentValueText="${value}°C"
+                        valueTextFontSize="25"
+                        needleColor="black"
+                        needleHeightRatio={0.7}
+                      />
+                    </div>
+                    <div className="col">
+                      <div className="text-muted">
+                        Humidity <i className="bi bi-water"></i>
+                      </div>
+                      <ReactSpeedometer
+                        maxValue={50}
+                        value={hum}
+                        // eslint-disable-next-line
+                        currentValueText="${value}%"
+                        valueTextFontSize="25"
+                        needleHeightRatio={0.7}
+                        needleColor="black"
+                        startColor="cornflowerblue"
+                      />
+                    </div>
                   </div>
-                );
-              })}
+                </span>
+              </div>
               <hr></hr>
               <h3>History</h3>
-              <table className="table table-striped">
+              <table className="table table-bordered" data-toggle="table">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
@@ -162,29 +181,25 @@ export default class Sensors extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {history.map((measure) => {
+                  {history.map((measure, key) => {
                     return (
-
-                      <tr>
+                      <tr key={key}>
                         <th scope="row">{web3.utils.toAscii(measure.id)}</th>
                         <td>{web3.utils.toAscii(measure.temp)}°C</td>
                         <td>{web3.utils.toAscii(measure.hum)}%</td>
                         <td>
                           {new Date(
                             parseInt(web3.utils.toAscii(measure.m_time)) * 1000
-                          ).toLocaleTimeString()} {new Date(
+                          ).toLocaleTimeString()}{" "}
+                          {new Date(
                             parseInt(web3.utils.toAscii(measure.m_time)) * 1000
                           ).toLocaleDateString()}
                         </td>
                         <td>
-                          {new Date(
-                           measure.l_time * 1000
-                          ).toLocaleTimeString()} {new Date(
-                            measure.l_time * 1000
-                          ).toLocaleDateString()}
+                          {new Date(measure.l_time * 1000).toLocaleTimeString()}{" "}
+                          {new Date(measure.l_time * 1000).toLocaleDateString()}
                         </td>
                       </tr>
-
                     );
                   })}
                 </tbody>

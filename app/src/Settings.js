@@ -83,7 +83,7 @@ export default class Settings extends Component {
                             </div>
                         </form>
                         <div className="btn-container">
-                            <button type="button" className="btn btn-info">You are an Admin!</button>
+                            <button type="button" className="btn btn-primary">You are an Admin!</button>
                         </div>
                     </div>
                     <hr />
@@ -136,7 +136,7 @@ export default class Settings extends Component {
                         </div>
                     </form>
                     <div className="btn-container">
-                        <button type="button" className="btn btn-info" onClick={setAdmin}>Set Admin</button>
+                        <button type="button" className="btn btn-primary" onClick={setAdmin}>Set Admin</button>
                     </div>
                 </div>
             </div>
