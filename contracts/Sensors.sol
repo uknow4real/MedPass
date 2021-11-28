@@ -15,7 +15,7 @@ contract Sensors is ChainlinkClient {
     // nodes you've chosen in a list, and then you can
     // take the median of those nodes
     uint256 private index;
-    uint256[3] private currentDataList;
+    bytes32[3] private currentDataList;
 
     address private oracle1 = 0xc57B33452b4F7BB189bB5AfaE9cc4aBa1f7a4FD8;
     bytes32 private jobId1 = "7401f318127148a894c00c292e486ffd";
@@ -109,28 +109,37 @@ contract Sensors is ChainlinkClient {
         public
         recordChainlinkFulfillment(_requestId)
     {
-        id = _data;
+        currentDataList[index] = _data;
+        // This ensures the array never goes past 3, we just keep rotating responses
+        index = (index + 1) % 3;
+        id = median();
     }
 
     function fulfillTemp(bytes32 _requestId, bytes32 _data)
         public
         recordChainlinkFulfillment(_requestId)
     {
-        temp = _data;
+        currentDataList[index] = _data;
+        index = (index + 1) % 3;
+        temp = median();
     }
 
     function fulfillHum(bytes32 _requestId, bytes32 _data)
         public
         recordChainlinkFulfillment(_requestId)
     {
-        hum = _data;
+        currentDataList[index] = _data;
+        index = (index + 1) % 3;
+        hum = median();
     }
 
     function fulfillTimestamp(bytes32 _requestId, bytes32 _data)
         public
         recordChainlinkFulfillment(_requestId)
     {
-        timestamp = _data;
+        currentDataList[index] = _data;
+        index = (index + 1) % 3;
+        timestamp = median();
     }
 
     function getData(uint32 _jobtype) public view returns (bytes32) {
@@ -154,7 +163,7 @@ contract Sensors is ChainlinkClient {
         requestSingleData(oracle3, jobId3, _id, _jobtype);
     }
 
-    function median() private view returns (uint256) {
+    function median() private view returns (bytes32) {
         if (currentDataList[0] > currentDataList[1]) {
             if (currentDataList[0] > currentDataList[2]) {
                 if (currentDataList[1] > currentDataList[2]) {
