@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactSpeedometer from "react-d3-speedometer";
 const totalSensors = require("./totalSensors");
+const address = require("./secrets.json");
 const web3 = require("web3");
 
 export default class Sensors extends Component {
@@ -90,6 +91,17 @@ export default class Sensors extends Component {
           <div className="section">
             <div className="setting-section border">
               <h2>Sensors</h2>
+              <a
+                href={
+                  "https://kovan.etherscan.io/address/" + address.sensorsAddress
+                }
+              >
+                <button type="button" className="btn btn-secondary">
+                  Visit smart contract address
+                </button>
+              </a>
+              <br></br>
+              <br></br>
               Select your Sensor:
               <select className="form-control" id="sensors">
                 <option value={totalSensors[0]}>{totalSensors[0]}</option>
